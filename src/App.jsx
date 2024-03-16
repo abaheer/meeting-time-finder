@@ -1,10 +1,10 @@
-import "./App.css";
+import { Calendar } from "./calender/calendar";
 
 function App() {
   return (
-    <>
-      <h1 className="text-center text-blue-300"> setup </h1>
-    </>
+    <div className="mt-5 flex flex-col items-center">
+      <Calendar />
+    </div>
   );
 }
 
