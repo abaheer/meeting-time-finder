@@ -64,7 +64,7 @@ export const Calendar = (props) => {
                 className={
                   "col-span-1 " +
                   (props.value.getDate() === dayOfTheMonth + 1
-                    ? "font-semibold underline"
+                    ? "bg-blue-500 text-white"
                     : "")
                 }
                 text={dayOfTheMonth + 1}
