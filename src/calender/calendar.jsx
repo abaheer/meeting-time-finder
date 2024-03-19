@@ -6,6 +6,10 @@ import {
   add,
   sub,
   set,
+  startOfWeek,
+  endOfWeek,
+  eachDayOfInterval,
+  isSameWeek,
 } from "date-fns";
 const daysOfTheWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
@@ -16,6 +20,11 @@ export const Calendar = (props) => {
   const daysArray = Array.from(Array(numberOfDays));
   const beforeCells = Array.from(Array(startDate.getDay()));
   const afterCells = Array.from(Array((7 - endDate.getDay()) % 7));
+
+  const datesOfTheMonth = eachDayOfInterval({
+    start: startDate,
+    end: endDate,
+  });
 
   const nextMonth = () => {
     props.onChange((prev) => add(prev, { months: 1 }));
@@ -33,7 +42,10 @@ export const Calendar = (props) => {
   return (
     <div className="mt-5 flex flex-col items-center">
       <div className="w-[500px] bg-white p-2 rounded-xl shadow-2xl border-none">
-        <div className="grid grid-cols-7 border-t border-l justify-center items-center text-center">
+        <div
+          key="uhhh"
+          className="grid grid-cols-7 border-t border-l justify-center items-center text-center"
+        >
           <Cell className="col-span-2" text={"<"} onClick={prevMonth} />
           <Cell
             className="col-span-3"
@@ -55,7 +67,9 @@ export const Calendar = (props) => {
           })}
 
           {beforeCells.map((_, index) => {
-            return <Cell className="col-span-1" text={""} />;
+            return (
+              <Cell key={`before${index}`} className="col-span-1" text={""} />
+            );
           })}
 
           {daysArray.map((_, dayOfTheMonth) => {
@@ -63,11 +77,11 @@ export const Calendar = (props) => {
               <Cell
                 className={
                   "col-span-1 " +
-                  (props.value.getDate() === dayOfTheMonth + 1
-                    ? "bg-blue-500 text-white"
+                  (isSameWeek(datesOfTheMonth[dayOfTheMonth], props.value)
+                    ? "bg-blue-600 text-white"
                     : "")
                 }
-                text={dayOfTheMonth + 1}
+                text={datesOfTheMonth[dayOfTheMonth].getDate()}
                 onClick={() => {
                   setCurrentDay(dayOfTheMonth + 1);
                 }}
@@ -76,11 +90,17 @@ export const Calendar = (props) => {
           })}
 
           {afterCells.map((_, index) => {
-            return <Cell className="col-span-1" text={""} />;
+            return (
+              <Cell key={`after${index}`} className="col-span-1" text={""} />
+            );
           })}
         </div>
       </div>
       <h1>{props.value.getDate()}</h1>
+
+      <div className="bg-blue-400 h-screen max-w-screen items-center">
+        stats here
+      </div>
     </div>
   );
 };
