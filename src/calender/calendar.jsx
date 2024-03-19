@@ -1,4 +1,5 @@
 import { Cell } from "./cell";
+import { Timelot } from "./timeslot";
 import {
   startOfMonth,
   endOfMonth,
@@ -99,7 +100,7 @@ export const Calendar = (props) => {
       <h1>{props.value.getDate()}</h1>
 
       <div className="bg-blue-400 h-screen max-w-screen items-center">
-        stats here
+        <TimeSlot />
       </div>
     </div>
   );
