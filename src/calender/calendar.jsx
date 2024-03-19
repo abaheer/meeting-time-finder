@@ -1,5 +1,5 @@
 import { Cell } from "./cell";
-import { Timelot } from "./timeslot";
+import { TimeSlots } from "./timeslot";
 import {
   startOfMonth,
   endOfMonth,
@@ -16,12 +16,18 @@ const daysOfTheWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 export const Calendar = (props) => {
   const startDate = startOfMonth(props.value);
+  const startWeek = startOfWeek(props.value);
   const endDate = endOfMonth(props.value);
   const numberOfDays = differenceInDays(endDate, startDate);
   const daysArray = Array.from(Array(numberOfDays));
   const beforeCells = Array.from(Array(startDate.getDay()));
   const afterCells = Array.from(Array((7 - endDate.getDay()) % 7));
 
+  const numWeekDays = Array.from(
+    Array(
+      differenceInDays(endOfWeek(props.value), startOfWeek(props.value)) + 1
+    )
+  );
   const datesOfTheMonth = eachDayOfInterval({
     start: startDate,
     end: endDate,
@@ -99,9 +105,17 @@ export const Calendar = (props) => {
       </div>
       <h1>{props.value.getDate()}</h1>
 
-      <div className="bg-blue-400 h-screen max-w-screen items-center">
-        <TimeSlot />
+      <div className="items-center flex">
+        {numWeekDays.map((_, index) => {
+          return (
+            <TimeSlots startWeek={startOfWeek(props.value)} dayIndex={index} />
+          );
+        })}
       </div>
+
+      <button className="mt-2 mb-5 border-white border-2 rounded py-1 px-3 text-white font-bold hover:bg-green-800">
+        Save
+      </button>
     </div>
   );
 };
