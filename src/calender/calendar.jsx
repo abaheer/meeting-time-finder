@@ -85,7 +85,7 @@ export const Calendar = (props) => {
                 className={
                   "col-span-1 " +
                   (isSameWeek(datesOfTheMonth[dayOfTheMonth], props.value)
-                    ? "bg-blue-600 text-white"
+                    ? " bg-blue-500 text-white"
                     : "")
                 }
                 text={datesOfTheMonth[dayOfTheMonth].getDate()}
@@ -105,7 +105,7 @@ export const Calendar = (props) => {
       </div>
       <h1>{props.value.getDate()}</h1>
 
-      <div className="items-center flex">
+      <div className="items-center flex justify-center">
         {numWeekDays.map((_, index) => {
           return (
             <TimeSlots startWeek={startOfWeek(props.value)} dayIndex={index} />

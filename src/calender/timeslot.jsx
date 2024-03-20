@@ -12,6 +12,8 @@ import {
   eachWeekOfInterval,
   eachHourOfInterval,
 } from "date-fns";
+import { useState } from "react";
+import { Slot } from "./slot";
 
 export const TimeSlots = (props) => {
   const day = add(props.startWeek, { days: props.dayIndex });
@@ -21,19 +23,38 @@ export const TimeSlots = (props) => {
     end: new Date(2014, 9, 6, 17),
   });
 
-  console.log(hourIntervals);
+  const [freeHours, setFreeHours] = useState([]);
+
+  const setAvailable = (date) => {
+    setFreeHours((prev) => {
+      console.log([...prev, date]);
+      return [...prev, date]; // Return a new array with the updated date
+    });
+  };
+
   return (
-    <div className="flex flex-col items-center justify center">
+    <div className="flex flex-col items-center justify-center">
       <h1 className="w-14 mt-2 flex justify-center font-bold text-xl">
         {day.getDate()}
       </h1>
-      {hourIntervals.map((date, i) => {
-        return (
-          <div className="text-black bg-red-400 mb-2 w-12 rounded font-bold text-center">
-            {date.getHours() % 12 ? (date.getHours() % 12) + "am" : 12 + "pm"}
-          </div>
-        );
-      })}
+      {hourIntervals.map((date, i) => (
+        <Slot
+          key={i}
+          date={set(date, {
+            year: day.getFullYear(),
+            month: day.getMonth(),
+            date: day.getDate(),
+          })}
+          onClick={setAvailable}
+          savedDate={
+            (
+              hourIntervals.find((item) => {
+                return item == date;
+              }) || []
+            ).length > 0
+          }
+        />
+      ))}
     </div>
   );
 };
