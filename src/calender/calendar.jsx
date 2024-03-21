@@ -80,7 +80,7 @@ export const Calendar = (props) => {
   };
 
   return (
-    <div className="mt-5 flex flex-col items-center">
+    <div className="mt-5 flex flex-wrap justify-center items-center">
       <div className="w-[500px] bg-white p-2 rounded-xl shadow-2xl border-none">
         <div
           key="uhhh"
@@ -150,11 +150,10 @@ export const Calendar = (props) => {
             />
           );
         })}
+        <button className="mt-2 mb-5 border-white border-2 rounded py-1 px-3 text-white font-bold hover:bg-green-800 flex justify-center items-center">
+          Save
+        </button>
       </div>
-
-      <button className="mt-2 mb-5 border-white border-2 rounded py-1 px-3 text-white font-bold hover:bg-green-800">
-        Save
-      </button>
     </div>
   );
 };
