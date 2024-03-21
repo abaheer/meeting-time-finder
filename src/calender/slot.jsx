@@ -4,7 +4,7 @@ export const Slot = ({ date, onClick, savedDate }) => {
   const [isSelected, setIsSelected] = useState(savedDate);
 
   const handleOnClick = () => {
-    setIsSelected(!isSelected);
+    setIsSelected((prev) => !prev);
     onClick(date); // Call the onClick handler passed from parent with the date
   };
 
