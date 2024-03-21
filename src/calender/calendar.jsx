@@ -116,10 +116,11 @@ export const Calendar = (props) => {
           {daysArray.map((_, dayOfTheMonth) => {
             return (
               <Cell
+                key={`after${dayOfTheMonth}`}
                 className={
                   "col-span-1 " +
                   (isSameWeek(datesOfTheMonth[dayOfTheMonth], props.value)
-                    ? " bg-blue-500 text-white"
+                    ? " bg-blue-600 text-white"
                     : "")
                 }
                 text={datesOfTheMonth[dayOfTheMonth].getDate()}
@@ -143,6 +144,7 @@ export const Calendar = (props) => {
         {numWeekDays.map((_, index) => {
           return (
             <TimeSlots
+              key={`TimeSlot${index}`}
               startWeek={startOfWeek(props.value)}
               dayIndex={index}
               setAvailable={setAvailable}
