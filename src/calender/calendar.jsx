@@ -56,14 +56,14 @@ export const Calendar = (props) => {
       const hour = date.getHours();
 
       if (!newMap.has(day)) {
-        newMap.set(day, [date]);
+        newMap.set(day, [hour]);
       } else {
         // If the key exists, check if the hour is already in the array
         const hoursArray = newMap.get(day);
         if (!hoursArray.includes(hour)) {
           // If the hour doesn't exist, add it to the array
           hoursArray.push(hour);
-          newMap.set(day, hoursArray); // Update the value for the key
+          newMap.set(day, hoursArray);
         } else {
           const hoursArray = newMap.get(day);
           newMap.set(
