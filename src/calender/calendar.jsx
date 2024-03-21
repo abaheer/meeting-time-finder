@@ -65,7 +65,6 @@ export const Calendar = (props) => {
           hoursArray.push(hour);
           newMap.set(day, hoursArray);
         } else {
-          const hoursArray = newMap.get(day);
           newMap.set(
             day,
             hoursArray.filter(function (e) {
