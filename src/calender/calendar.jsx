@@ -81,7 +81,7 @@ export const Calendar = (props) => {
 
   return (
     <div className="mt-5 flex flex-wrap justify-center items-center">
-      <div className="w-[500px] bg-white p-2 rounded-xl shadow-2xl border-none">
+      <div className="w-[500px] bg-white shadow-2xl border-none">
         <div
           key="uhhh"
           className="grid grid-cols-7 border-t border-l justify-center items-center text-center"
@@ -119,7 +119,7 @@ export const Calendar = (props) => {
                 className={
                   "col-span-1 " +
                   (isSameWeek(datesOfTheMonth[dayOfTheMonth], props.value)
-                    ? " bg-blue-600 text-white"
+                    ? " bg-blue-800 text-white"
                     : "")
                 }
                 text={datesOfTheMonth[dayOfTheMonth].getDate()}
