@@ -6,6 +6,9 @@ namespace server.Models
     {
         [Key]
         public int PersonId { get; set; }
-        public List<DateTime>? AvailibleTimes { get; set; }
+        public required string Name { get; set; }
+
+        public required Room Room { get; set; }
+        public ICollection<AvailableTime>? PersonAvailableTimes { get; set; }
     }
 }
