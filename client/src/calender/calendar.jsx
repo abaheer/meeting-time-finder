@@ -118,8 +118,9 @@ export const Calendar = (props) => {
                 key={`after${dayOfTheMonth}`}
                 className={
                   "col-span-1 " +
-                  (isSameWeek(datesOfTheMonth[dayOfTheMonth], props.value)
-                    ? " bg-blue-800 text-white"
+                  (props.value &&
+                  isSameWeek(datesOfTheMonth[dayOfTheMonth], props.value)
+                    ? " bg-sky-600 text-white"
                     : "")
                 }
                 text={datesOfTheMonth[dayOfTheMonth].getDate()}
