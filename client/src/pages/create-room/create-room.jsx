@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 
 export const CreateRoom = () => {
+  const navigate = useNavigate();
   return (
     <div className="flex items-center justify-center mt-10">
       <div className="w-full max-w-xs justify-center">
@@ -51,7 +52,7 @@ export const CreateRoom = () => {
             <button
               className="transition duration-300 bg-sky-600 hover:bg-sky-950 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               type="button"
-              onClick={() => navigate("/")}
+              onClick={() => navigate("/room/1")}
             >
               Create Room
             </button>

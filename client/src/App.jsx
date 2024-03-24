@@ -19,7 +19,7 @@ function App() {
       <Router>
         <Routes>
           <Route
-            path="/cal"
+            path="/room/1"
             element={<Calendar value={currentDate} onChange={setCurrentDate} />}
           />
           <Route path="/" element={<CreateRoom />} />
