@@ -120,7 +120,7 @@ export const Calendar = (props) => {
                   "col-span-1 " +
                   (props.value &&
                   isSameWeek(datesOfTheMonth[dayOfTheMonth], props.value)
-                    ? " bg-sky-600 text-white"
+                    ? " bg-blue-600 text-white"
                     : "")
                 }
                 text={datesOfTheMonth[dayOfTheMonth].getDate()}
