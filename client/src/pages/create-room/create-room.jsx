@@ -5,7 +5,7 @@ export const CreateRoom = () => {
   return (
     <div className="flex items-center justify-center mt-10">
       <div className="w-full max-w-xs justify-center">
-        <form className="transition duration-300 bg-white border-sky-600 hover:border-sky-950 border-8 rounded-3xl px-8 pt-6 pb-8 mb-4">
+        <form className="transition duration-300 bg-white hover:shadow-xl border-sky-600 border-8 rounded-3xl px-8 pt-6 pb-8 mb-4">
           <div className="mb-4">
             <label
               className="block text-gray-700 text-sm font-bold mb-2"
