@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "D:\\Windows Folders\\Desktop\\projex\\meeting-time-finder\\server\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{B1092CB8-DA6D-436C-824B-BD752E61B41A}|server\\server.csproj|d:\\windows folders\\desktop\\projex\\meeting-time-finder\\server\\server\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B1092CB8-DA6D-436C-824B-BD752E61B41A}|server\\server.csproj|solutionrelative:server\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{B1092CB8-DA6D-436C-824B-BD752E61B41A}|server\\server.csproj|d:\\windows folders\\desktop\\projex\\meeting-time-finder\\server\\server\\controllers\\roomscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B1092CB8-DA6D-436C-824B-BD752E61B41A}|server\\server.csproj|solutionrelative:server\\controllers\\roomscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -39,10 +43,6 @@
       "RelativeMoniker": "D:0:0:{B1092CB8-DA6D-436C-824B-BD752E61B41A}|server\\server.csproj|solutionrelative:server\\migrations\\meetingdbcontextmodelsnapshot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B1092CB8-DA6D-436C-824B-BD752E61B41A}|server\\server.csproj|d:\\windows folders\\desktop\\projex\\meeting-time-finder\\server\\server\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B1092CB8-DA6D-436C-824B-BD752E61B41A}|server\\server.csproj|solutionrelative:server\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{B1092CB8-DA6D-436C-824B-BD752E61B41A}|server\\server.csproj|d:\\windows folders\\desktop\\projex\\meeting-time-finder\\server\\server\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{B1092CB8-DA6D-436C-824B-BD752E61B41A}|server\\server.csproj|solutionrelative:server\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
@@ -70,20 +70,7 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "AvailableTimesController.cs",
-              "DocumentMoniker": "D:\\Windows Folders\\Desktop\\projex\\meeting-time-finder\\server\\server\\Controllers\\AvailableTimesController.cs",
-              "RelativeDocumentMoniker": "server\\Controllers\\AvailableTimesController.cs",
-              "ToolTip": "D:\\Windows Folders\\Desktop\\projex\\meeting-time-finder\\server\\server\\Controllers\\AvailableTimesController.cs",
-              "RelativeToolTip": "server\\Controllers\\AvailableTimesController.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-24T04:46:58.449Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "PeopleController.cs",
               "DocumentMoniker": "D:\\Windows Folders\\Desktop\\projex\\meeting-time-finder\\server\\server\\Controllers\\PeopleController.cs",
               "RelativeDocumentMoniker": "server\\Controllers\\PeopleController.cs",
@@ -91,25 +78,49 @@
               "RelativeToolTip": "server\\Controllers\\PeopleController.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-24T04:45:54.856Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-03-24T04:45:54.856Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "RoomsController.cs",
               "DocumentMoniker": "D:\\Windows Folders\\Desktop\\projex\\meeting-time-finder\\server\\server\\Controllers\\RoomsController.cs",
               "RelativeDocumentMoniker": "server\\Controllers\\RoomsController.cs",
               "ToolTip": "D:\\Windows Folders\\Desktop\\projex\\meeting-time-finder\\server\\server\\Controllers\\RoomsController.cs",
               "RelativeToolTip": "server\\Controllers\\RoomsController.cs",
-              "ViewState": "AQIAAEoAAAAAAAAAAAAIwGUAAAAnAAAA",
+              "ViewState": "AQIAAD4AAAAAAAAAAAAIwFEAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-03-24T04:43:03.844Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\Windows Folders\\Desktop\\projex\\meeting-time-finder\\server\\server\\Program.cs",
+              "RelativeDocumentMoniker": "server\\Program.cs",
+              "ToolTip": "D:\\Windows Folders\\Desktop\\projex\\meeting-time-finder\\server\\server\\Program.cs",
+              "RelativeToolTip": "server\\Program.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-23T03:29:35.104Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "AvailableTimesController.cs",
+              "DocumentMoniker": "D:\\Windows Folders\\Desktop\\projex\\meeting-time-finder\\server\\server\\Controllers\\AvailableTimesController.cs",
+              "RelativeDocumentMoniker": "server\\Controllers\\AvailableTimesController.cs",
+              "ToolTip": "D:\\Windows Folders\\Desktop\\projex\\meeting-time-finder\\server\\server\\Controllers\\AvailableTimesController.cs",
+              "RelativeToolTip": "server\\Controllers\\AvailableTimesController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-24T04:46:58.449Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
               "Title": "MeetingDbContextModelSnapshot.cs",
               "DocumentMoniker": "D:\\Windows Folders\\Desktop\\projex\\meeting-time-finder\\server\\server\\Migrations\\MeetingDbContextModelSnapshot.cs",
               "RelativeDocumentMoniker": "server\\Migrations\\MeetingDbContextModelSnapshot.cs",
@@ -117,12 +128,11 @@
               "RelativeToolTip": "server\\Migrations\\MeetingDbContextModelSnapshot.cs",
               "ViewState": "AQIAAGQAAAAAAAAAAADwv3oAAAA6AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-24T02:58:37.274Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-03-24T02:58:37.274Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "20240323075018_initial create.cs",
               "DocumentMoniker": "D:\\Windows Folders\\Desktop\\projex\\meeting-time-finder\\server\\server\\Migrations\\20240323075018_initial create.cs",
               "RelativeDocumentMoniker": "server\\Migrations\\20240323075018_initial create.cs",
@@ -130,12 +140,11 @@
               "RelativeToolTip": "server\\Migrations\\20240323075018_initial create.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-23T07:50:18.762Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-03-23T07:50:18.762Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "Person.cs",
               "DocumentMoniker": "D:\\Windows Folders\\Desktop\\projex\\meeting-time-finder\\server\\server\\Models\\Person.cs",
               "RelativeDocumentMoniker": "server\\Models\\Person.cs",
@@ -143,12 +152,11 @@
               "RelativeToolTip": "server\\Models\\Person.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAABAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-23T03:25:19.619Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-03-23T03:25:19.619Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "MeetingDbContext.cs",
               "DocumentMoniker": "D:\\Windows Folders\\Desktop\\projex\\meeting-time-finder\\server\\server\\Models\\MeetingDbContext.cs",
               "RelativeDocumentMoniker": "server\\Models\\MeetingDbContext.cs",
@@ -156,12 +164,11 @@
               "RelativeToolTip": "server\\Models\\MeetingDbContext.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-23T03:51:49.437Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-03-23T03:51:49.437Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "AvailableTime.cs",
               "DocumentMoniker": "D:\\Windows Folders\\Desktop\\projex\\meeting-time-finder\\server\\server\\Models\\AvailableTime.cs",
               "RelativeDocumentMoniker": "server\\Models\\AvailableTime.cs",
@@ -169,12 +176,11 @@
               "RelativeToolTip": "server\\Models\\AvailableTime.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAA4AAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-23T04:49:41.347Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-03-23T04:49:41.347Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "Room.cs",
               "DocumentMoniker": "D:\\Windows Folders\\Desktop\\projex\\meeting-time-finder\\server\\server\\Models\\Room.cs",
               "RelativeDocumentMoniker": "server\\Models\\Room.cs",
@@ -182,8 +188,7 @@
               "RelativeToolTip": "server\\Models\\Room.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAABEAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-23T03:22:33.039Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-03-23T03:22:33.039Z"
             },
             {
               "$type": "Document",
@@ -195,8 +200,7 @@
               "RelativeToolTip": "server\\appsettings.json",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAAwAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-03-23T03:47:30.786Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-03-23T03:47:30.786Z"
             },
             {
               "$type": "Document",
@@ -208,21 +212,7 @@
               "RelativeToolTip": "server\\Properties\\launchSettings.json",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-03-23T03:47:42.483Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "Program.cs",
-              "DocumentMoniker": "D:\\Windows Folders\\Desktop\\projex\\meeting-time-finder\\server\\server\\Program.cs",
-              "RelativeDocumentMoniker": "server\\Program.cs",
-              "ToolTip": "D:\\Windows Folders\\Desktop\\projex\\meeting-time-finder\\server\\server\\Program.cs",
-              "RelativeToolTip": "server\\Program.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA4AAAAWAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-23T03:29:35.104Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-03-23T03:47:42.483Z"
             },
             {
               "$type": "Document",
@@ -245,8 +235,7 @@
               "RelativeToolTip": "server\\server.csproj",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2024-03-23T03:20:50.147Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-03-23T03:20:50.147Z"
             }
           ]
         }
