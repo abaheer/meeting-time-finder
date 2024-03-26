@@ -1,3 +1,5 @@
+import { stateContext } from "../../hooks/context";
+import { useContext, useEffect } from "react";
 import { Cell } from "./cell";
 import { TimeSlots } from "./timeslot";
 import { useState } from "react";
@@ -13,9 +15,11 @@ import {
   eachDayOfInterval,
   isSameWeek,
 } from "date-fns";
-const daysOfTheWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
+const daysOfTheWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 export const Calendar = (props) => {
+  const { getNumParticipants } = useContext(stateContext);
+
   const startDate = startOfMonth(props.value);
   const startWeek = startOfWeek(props.value);
   const endDate = endOfMonth(props.value);
@@ -34,13 +38,16 @@ export const Calendar = (props) => {
     end: endDate,
   });
 
+  useEffect(() => {
+    getNumParticipants();
+  }, []);
+
   const nextMonth = () => {
     props.onChange((prev) => add(prev, { months: 1 }));
   };
 
   const prevMonth = () => {
     props.onChange((prev) => sub(prev, { months: 1 }));
-    console.log(props.value);
   };
 
   const setCurrentDay = (dayOfTheMonth) => {

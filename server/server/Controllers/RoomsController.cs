@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using server.Models;
 
@@ -39,6 +40,29 @@ namespace server.Controllers
             }
 
             return room;
+        }
+
+        // GET: api/5/Participants
+        [HttpGet("{roomId}/Participants")]
+        public async Task<ActionResult<IEnumerable<int>>> GetParticipantIdsForRoom(int roomId)
+        {
+            var room = await _context.Rooms
+                                    .Include(r => r.Participants) // Include the Participants collection
+                                    .FirstOrDefaultAsync(r => r.RoomId == roomId);
+
+            if (room == null)
+            {
+                return NotFound(); // Return 404 if room not found
+            }
+
+            var participantIds = room.Participants?.Select(p => p.PersonId);
+
+            if (participantIds == null || !participantIds.Any())
+            {
+                return NoContent(); // Return 204 if no participants found
+            }
+
+            return Ok(participantIds); // Return participant IDs with 200 OK
         }
 
         // PUT: api/Rooms/5
