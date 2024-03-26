@@ -5,11 +5,11 @@ export const stateContext = createContext();
 const getFreshContext = () => {
   return {
     personId: 0,
-    roomId: 2,
+    roomId: 0,
   };
 };
 
-export const wContextProvider = ({ children }) => {
+export const ContextProvider = ({ children }) => {
   const [context, setContext] = useState(getFreshContext());
 
   const contextValue = {
