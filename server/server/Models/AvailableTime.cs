@@ -8,7 +8,10 @@ namespace server.Models
         public int AvailableTimeId { get; set; }
         public required DateTime Time { get; set; }
 
-        public ICollection<Person>? PersonAvailableTimes { get; set; }
+        // navigation
+        public int? RoomId { get; set; }
+        public Room? Room { get; set; }
+        public ICollection<Person_AvailableTime>? Person_AvailableTimes { get; set; }
 
     }
 }

@@ -6,9 +6,11 @@ namespace server.Models
     {
         [Key]
         public int PersonId { get; set; }
-        public required string Name { get; set; }
+        public required string PersonName { get; set; }
 
-        public required Room Room { get; set; }
-        public ICollection<AvailableTime>? PersonAvailableTimes { get; set; }
+        // navigation
+        public int? RoomId { get; set; }
+        public Room? Room { get; set; }
+        public ICollection<Person_AvailableTime>? Person_AvailableTimes { get; set; }
     }
 }
