@@ -8,6 +8,7 @@ const getFreshContext = () => {
     personId: 0,
     roomId: 0,
     numParticipants: -1,
+    selectedDates: new Map(),
   };
 };
 
@@ -24,10 +25,38 @@ export const ContextProvider = ({ children }) => {
     });
   };
 
+  const selectDate = (date) => {
+    setContext((prev) => {
+      const newMap = new Map(prev.selectedDates);
+      const day = date.toLocaleDateString("en-US");
+      const hour = date.getHours();
+
+      if (!newMap.has(day)) {
+        newMap.set(day, [hour]);
+      } else {
+        const hoursArray = newMap.get(day);
+        if (!hoursArray.includes(hour)) {
+          hoursArray.push(hour);
+          newMap.set(day, hoursArray);
+        } else {
+          newMap.set(
+            day,
+            hoursArray.filter(function (e) {
+              return e !== hour;
+            })
+          );
+        }
+      }
+
+      console.log(newMap);
+      return { ...prev, selectedDates: newMap }; // Return the new Map instance
+    });
+  };
   const contextValue = {
     context,
     setContext,
     getNumParticipants,
+    selectDate,
   };
 
   return (

@@ -23,7 +23,6 @@ export const TimeSlots = (props) => {
             month: day.getMonth(),
             date: day.getDate(),
           })}
-          onClick={props.setAvailable}
           savedDate={
             (
               hourIntervals.find((item) => {

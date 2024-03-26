@@ -54,38 +54,6 @@ export const Calendar = (props) => {
     props.onChange((prev) => set(prev, { date: dayOfTheMonth }));
   };
 
-  const [freeHours, setFreeHours] = useState(new Map());
-
-  const setAvailable = (date) => {
-    setFreeHours((prev) => {
-      const newMap = prev; // Create a shallow copy of the previous map
-      const day = date.toLocaleDateString("en-US");
-      const hour = date.getHours();
-
-      if (!newMap.has(day)) {
-        newMap.set(day, [hour]);
-      } else {
-        // If the key exists, check if the hour is already in the array
-        const hoursArray = newMap.get(day);
-        if (!hoursArray.includes(hour)) {
-          // If the hour doesn't exist, add it to the array
-          hoursArray.push(hour);
-          newMap.set(day, hoursArray);
-        } else {
-          newMap.set(
-            day,
-            hoursArray.filter(function (e) {
-              return e !== hour;
-            })
-          );
-        }
-      }
-
-      console.log(newMap);
-      return newMap; // Return the new Map instance
-    });
-  };
-
   return (
     <div className="mt-5 flex flex-wrap justify-center items-center">
       <div className="w-[500px] bg-white shadow-2xl border-none">
@@ -147,14 +115,24 @@ export const Calendar = (props) => {
       </div>
       <h1>{props.value.getDate()}</h1>
 
-      <div className="items-center flex justify-center">
+      <div className="border-2 grid grid-cols-8 items-center justify-center">
+        <div className="text-xl grid grid-rows-9 justify-center leading-8 mt-7">
+          <h1>9</h1>
+          <h1>10</h1>
+          <h1>11</h1>
+          <h1>12</h1>
+          <h1>1</h1>
+          <h1>2</h1>
+          <h1>3</h1>
+          <h1>4</h1>
+          <h1>5</h1>
+        </div>
         {numWeekDays.map((_, index) => {
           return (
             <TimeSlots
               key={`TimeSlot${index}`}
               startWeek={startOfWeek(props.value)}
               dayIndex={index}
-              setAvailable={setAvailable}
             />
           );
         })}
