@@ -3,12 +3,13 @@ import { Cell } from "./pages/calender/cell";
 import { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { CreateRoom } from "./pages/create-room/create-room";
+import { ContextProvider } from "./hooks/context";
 
 function App() {
   const [currentDate, setCurrentDate] = useState(new Date());
 
   return (
-    <>
+    <ContextProvider>
       <meta
         name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"
@@ -25,7 +26,7 @@ function App() {
           <Route path="/" element={<CreateRoom />} />
         </Routes>
       </Router>
-    </>
+    </ContextProvider>
   );
 }
 
