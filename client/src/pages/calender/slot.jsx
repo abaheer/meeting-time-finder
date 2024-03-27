@@ -2,24 +2,27 @@ import { useState } from "react";
 import { stateContext } from "../../hooks/context";
 import { useContext, useEffect } from "react";
 
-export const Slot = ({ date, onClick, savedDate }) => {
-  const [isSelected, setIsSelected] = useState(savedDate);
+export const Slot = ({ date }) => {
+  const { context, selectDate, isSlotAvailable } = useContext(stateContext);
+  const [text, setText] = useState(0);
 
-  const { context, selectDate } = useContext(stateContext);
+  useEffect(() => {
+    // Update text when isSlotAvailable changes
+    setText(isSlotAvailable(date));
+  }, [isSlotAvailable]); // Run the effect whenever date or isSlotAvailable changes
 
   const handleOnClick = async () => {
     await selectDate(date);
-    setIsSelected((prev) => !prev);
   };
 
   return (
     <div
       onClick={handleOnClick}
       className={`transition text-black ${
-        isSelected ? `bg-green-400` : `bg-red-400`
+        text > 0 ? `bg-green-400` : `bg-red-400`
       } transition-duration:150ms cursor-pointer mb-2 w-12 rounded font-bold text-center`}
     >
-      {`0/${context.numParticipants}`}
+      {`${text}/${context.numParticipants}`}
     </div>
   );
 };

@@ -9,6 +9,7 @@ const getFreshContext = () => {
     roomId: 0,
     numParticipants: -1,
     selectedDates: new Map(),
+    userDates: new Map(),
   };
 };
 
@@ -23,6 +24,25 @@ export const ContextProvider = ({ children }) => {
         numParticipants: res.data.$values.length,
       }));
     });
+  };
+
+  const loadDates = () => {
+    axios
+      .get(
+        "https://localhost:7118/api/Rooms/1/Participants/AvailableTimes/Counts"
+      )
+      .then((res) => {
+        // Access the properties directly if res.data is an object
+        const temp = new Map();
+        res.data.$values.forEach((element) => {
+          const toDate = new Date(element.time);
+          temp.set(toDate.toString(), element.count);
+        });
+        console.log(temp);
+        setContext((prev) => {
+          return { ...prev, userDates: temp };
+        });
+      });
   };
 
   const selectDate = (date) => {
@@ -52,11 +72,25 @@ export const ContextProvider = ({ children }) => {
       return { ...prev, selectedDates: newMap }; // Return the new Map instance
     });
   };
+
+  const isSlotAvailable = (date) => {
+    // Convert the date to a string to ensure proper comparison
+    const keyString = date.toString();
+
+    if (context.userDates.has(keyString)) {
+      console.log(context.userDates.get(keyString));
+      return context.userDates.get(keyString);
+    }
+    return 0;
+  };
+
   const contextValue = {
     context,
     setContext,
     getNumParticipants,
     selectDate,
+    loadDates,
+    isSlotAvailable,
   };
 
   return (

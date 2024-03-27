@@ -18,7 +18,7 @@ import {
 
 const daysOfTheWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 export const Calendar = (props) => {
-  const { getNumParticipants } = useContext(stateContext);
+  const { getNumParticipants, loadDates } = useContext(stateContext);
 
   const startDate = startOfMonth(props.value);
   const startWeek = startOfWeek(props.value);
@@ -40,6 +40,7 @@ export const Calendar = (props) => {
 
   useEffect(() => {
     getNumParticipants();
+    loadDates();
   }, []);
 
   const nextMonth = () => {

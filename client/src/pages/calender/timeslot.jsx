@@ -1,9 +1,11 @@
 import { add, set, eachHourOfInterval } from "date-fns";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Slot } from "./slot";
+import { stateContext } from "../../hooks/context";
 
 export const TimeSlots = (props) => {
   const day = add(props.startWeek, { days: props.dayIndex });
+  const { context, userDates } = useContext(stateContext);
 
   const hourIntervals = eachHourOfInterval({
     start: new Date(2014, 9, 6, 9),
@@ -23,13 +25,6 @@ export const TimeSlots = (props) => {
             month: day.getMonth(),
             date: day.getDate(),
           })}
-          savedDate={
-            (
-              hourIntervals.find((item) => {
-                return item == date;
-              }) || []
-            ).length > 0
-          }
         />
       ))}
     </div>

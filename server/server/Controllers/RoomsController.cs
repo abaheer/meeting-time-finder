@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Linq;
 using server.Models;
 
 namespace server.Controllers
@@ -42,6 +43,30 @@ namespace server.Controllers
             return room;
         }
 
+        // GET: api/Rooms/5
+        [HttpGet("{id}/timeslot")]
+        public async Task<ActionResult<List<int>>> GetSlotCount(int id)
+        {
+            var room = _context.Rooms
+    .Include(r => r.AvailableTimes)
+    .FirstOrDefault(r => r.RoomId == id);
+
+            if (room == null || room.AvailableTimes == null)
+            {
+                return NotFound();
+            }
+
+            List<int> result = new List<int>();
+            foreach(var availableTime in room.AvailableTimes)
+            {
+                if (availableTime.Person_AvailableTimes != null) 
+                {
+                    result.Add(availableTime.Person_AvailableTimes.Count);
+                }
+            }
+            return result;
+        }
+
         // GET: api/5/Participants
         [HttpGet("{roomId}/Participants")]
         public async Task<ActionResult<IEnumerable<int>>> GetParticipantIdsForRoom(int roomId)
@@ -56,13 +81,64 @@ namespace server.Controllers
             }
 
             var participantIds = room.Participants?.Select(p => p.PersonId);
+            var availableTimes = await _context.AvailableParticipants
+                                    .Where(ap => participantIds.Any(pid => pid == ap.PersonId))
+                                    .Select(ap => new { ap.PersonId, ap.AvailableTime.Time })
+                                    .Distinct() // Remove duplicate available times
+                                    .ToListAsync();
 
             if (participantIds == null || !participantIds.Any())
             {
                 return NoContent(); // Return 204 if no participants found
             }
 
-            return Ok(participantIds); // Return participant IDs with 200 OK
+            return Ok(availableTimes); // Return participant IDs with 200 OK
+        }
+
+        // GET: api/5/Participants/AvailableTimes/Counts
+        [HttpGet("{roomId}/Participants/AvailableTimes/Counts")]
+        public async Task<ActionResult<IEnumerable<object>>> GetAvailableTimeCountsForParticipants(int roomId)
+        {
+            // Retrieve the room with participants
+            var room = await _context.Rooms
+                                    .Include(r => r.Participants) // Include the Participants collection
+                                    .FirstOrDefaultAsync(r => r.RoomId == roomId);
+
+            if (room == null)
+            {
+                return NotFound(); // Return 404 if room not found
+            }
+
+            // Retrieve the participant IDs
+            var participantIds = room.Participants?.Select(p => p.PersonId);
+
+            if (participantIds == null || !participantIds.Any())
+            {
+                return NoContent(); // Return 204 if no participants found
+            }
+
+            // Query available times for the retrieved participant IDs
+            var availableTimes = await _context.AvailableParticipants
+                                                .Where(ap => participantIds.Any(id => id == ap.PersonId)) // Check if the participant ID is in the collection
+                                                .Select(ap => ap.AvailableTime.Time) // Select the time only
+                                                .Distinct() // Remove duplicate times
+                                                .ToListAsync();
+
+            // Create a dictionary to store the counts of each time
+            var timeCounts = new Dictionary<DateTime, int>();
+
+            // Count occurrences of each time
+            foreach (var time in availableTimes)
+            {
+                int count = await _context.AvailableParticipants
+                                            .Where(ap => ap.AvailableTime.Time == time && participantIds.Any(id => id == ap.PersonId)) // Check if the participant ID is in the collection
+                                            .CountAsync();
+
+                // Add the count to the dictionary
+                timeCounts[time] = count;
+            }
+
+            return timeCounts.Select(kvp => new { Time = kvp.Key, Count = kvp.Value }).ToList();
         }
 
         // PUT: api/Rooms/5
