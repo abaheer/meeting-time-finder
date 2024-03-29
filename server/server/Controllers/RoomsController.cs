@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -26,7 +27,7 @@ namespace server.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Room>>> GetRooms()
         {
-            return await _context.Rooms.ToListAsync();
+            return await _context.Rooms.Include(p => p.Participants).ThenInclude(pa => pa.Person_AvailableTimes).ToListAsync();
         }
 
         // GET: api/Rooms/5
@@ -48,8 +49,8 @@ namespace server.Controllers
         public async Task<ActionResult<List<int>>> GetSlotCount(int id)
         {
             var room = _context.Rooms
-    .Include(r => r.AvailableTimes)
-    .FirstOrDefault(r => r.RoomId == id);
+            .Include(r => r.AvailableTimes)
+            .FirstOrDefault(r => r.RoomId == id);
 
             if (room == null || room.AvailableTimes == null)
             {
@@ -57,9 +58,9 @@ namespace server.Controllers
             }
 
             List<int> result = new List<int>();
-            foreach(var availableTime in room.AvailableTimes)
+            foreach (var availableTime in room.AvailableTimes)
             {
-                if (availableTime.Person_AvailableTimes != null) 
+                if (availableTime.Person_AvailableTimes != null)
                 {
                     result.Add(availableTime.Person_AvailableTimes.Count);
                 }
@@ -93,6 +94,26 @@ namespace server.Controllers
             }
 
             return Ok(availableTimes); // Return participant IDs with 200 OK
+        }
+
+        // GET: api/5/Participants/AvailableTimes/Counts
+        [HttpGet("{roomId}/Participants/AvailableTimes/Counts2")]
+        public async Task<ActionResult<IEnumerable<Room>>> GetAvailableTimeCountsForParticipants2(int roomId)
+        {
+            // Retrieve the room with participants
+            var room = await _context.Rooms
+                                    .Include(r => r.Participants)
+                                    .ThenInclude(n => n.Person_AvailableTimes) // Include the Participants collection
+                                    .FirstOrDefaultAsync(r => r.RoomId == roomId);
+
+            if (room == null)
+            {
+                return NotFound(); // Return 404 if room not found
+            }
+
+            var timesWithUserId = _context.AvailableParticipants.Where(n => n.PersonId == roomId);
+
+            return Ok(timesWithUserId);
         }
 
         // GET: api/5/Participants/AvailableTimes/Counts
@@ -174,12 +195,27 @@ namespace server.Controllers
 
         // POST: api/Rooms
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Room>> PostRoom(Room room)
+        [HttpPost("{name}")]
+        public async Task<ActionResult<Room>> PostRoom(Room room, string name)
         {
+            // Create a new Person object with the provided person's name
+            Person newPerson = new Person { PersonName = name };
+
+            // Add the new Person to the Room's Participants collection
+            room.Participants = new Collection<Person> { newPerson };
+
+            // Add the new AvailableTime to the Room's AvailableTimes collection
+            room.AvailableTimes = new Collection<AvailableTime> { };
+
+            // Add the new Room and Person to the context
             _context.Rooms.Add(room);
+            _context.Participants.Add(newPerson);
+            
+
+            // Save changes to the database
             await _context.SaveChangesAsync();
 
+            // Return the newly created Room object
             return CreatedAtAction("GetRoom", new { id = room.RoomId }, room);
         }
 

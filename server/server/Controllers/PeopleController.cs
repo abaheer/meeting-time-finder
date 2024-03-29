@@ -24,7 +24,11 @@ namespace server.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Person>>> GetParticipants()
         {
-            return await _context.Participants.ToListAsync();
+            var participants = await _context.Participants
+                                            .Include(p => p.Room) // EAGER LOADING OR WHATEVER
+                                            .ToListAsync();
+
+            return participants;
         }
 
         // GET: api/People/5
@@ -40,7 +44,24 @@ namespace server.Controllers
 
             return person;
         }
+        // GET: api/People/5/GetTimes
+        [HttpGet("{id}/GetTimes")]
+        public async Task<ActionResult<IEnumerable<AvailableTime>>> GetPersonAvailableTimes(int id)
+        {
+            var person = await _context.Participants
+                                        .Include(p => p.Person_AvailableTimes)
+                                            .ThenInclude(pt => pt.AvailableTime)
+                                        .FirstOrDefaultAsync(p => p.PersonId == id);
 
+            if (person == null)
+            {
+                return NotFound();
+            }
+
+            var availableTimes = person.Person_AvailableTimes.Select(pt => pt.AvailableTime).ToList();
+
+            return Ok(availableTimes);
+        }
         // PUT: api/People/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]

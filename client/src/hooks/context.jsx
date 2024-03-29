@@ -5,11 +5,11 @@ export const stateContext = createContext();
 
 const getFreshContext = () => {
   return {
-    personId: 0,
-    roomId: 0,
-    numParticipants: -1,
-    selectedDates: new Map(),
-    userDates: new Map(),
+    personId: 3,
+    roomId: 1,
+    numParticipants: -1, // number of participants in a room.
+    selectedDates: new Map(), // current user selected dates.
+    userDates: new Map(), // loaded dates from all users so we can display counts (date => count).
   };
 };
 
@@ -17,24 +17,26 @@ export const ContextProvider = ({ children }) => {
   const [context, setContext] = useState(getFreshContext());
 
   const getNumParticipants = () => {
-    axios.get("https://localhost:7118/api/Rooms/1/Participants").then((res) => {
-      console.log(res.data.$values.length);
-      setContext((prev) => ({
-        ...prev,
-        numParticipants: res.data.$values.length,
-      }));
-    });
+    axios
+      .get(`https://localhost:7118/api/Rooms/${context.roomId}/Participants`)
+      .then((res) => {
+        console.log(res.data);
+        setContext((prev) => ({
+          ...prev,
+          numParticipants: res.data.length,
+        }));
+      });
   };
 
+  // set UserDates to store all times with at least one person available
   const loadDates = () => {
     axios
       .get(
-        "https://localhost:7118/api/Rooms/1/Participants/AvailableTimes/Counts"
+        `https://localhost:7118/api/Rooms/${context.roomId}/Participants/AvailableTimes/Counts`
       )
       .then((res) => {
-        // Access the properties directly if res.data is an object
         const temp = new Map();
-        res.data.$values.forEach((element) => {
+        res.data.forEach((element) => {
           const toDate = new Date(element.time);
           temp.set(toDate.toString(), element.count);
         });
@@ -45,6 +47,35 @@ export const ContextProvider = ({ children }) => {
       });
   };
 
+  const incrementUserDate = (date) => {
+    setContext((prev) => {
+      const temp = new Map(prev.userDates);
+
+      const oldVal = temp.get(date.toString());
+
+      if (!isNaN(oldVal)) {
+        temp.set(date.toString(), oldVal + 1);
+        console.log("baaa", temp);
+        return { ...prev, userDates: temp };
+      }
+
+      temp.set(date.toString(), 1);
+      console.log("mbaaa", temp);
+      return { ...prev, userDates: temp };
+    });
+  };
+
+  // return the number of people available at a given time
+  const peopleAtTime = (date) => {
+    const keyString = date.toString();
+
+    if (context.userDates.has(keyString)) {
+      return context.userDates.get(keyString);
+    }
+    return 0;
+  };
+
+  // store dates the user clicks in a selecedDates (date: [times])
   const selectDate = (date) => {
     setContext((prev) => {
       const newMap = new Map(prev.selectedDates);
@@ -68,20 +99,59 @@ export const ContextProvider = ({ children }) => {
         }
       }
 
-      console.log(newMap);
+      console.log("hey", newMap);
       return { ...prev, selectedDates: newMap }; // Return the new Map instance
     });
+
+    incrementUserDate(date);
   };
 
-  const isSlotAvailable = (date) => {
-    // Convert the date to a string to ensure proper comparison
-    const keyString = date.toString();
+  const getUserDates = () => {
+    return axios
+      .get(`https://localhost:7118/api/People/${context.personId}/GetTimes`)
+      .then((res) => {
+        return res.data;
+      });
+  };
 
-    if (context.userDates.has(keyString)) {
-      console.log(context.userDates.get(keyString));
-      return context.userDates.get(keyString);
+  const storeUserDates = async () => {
+    const dates = await getUserDates(); // Wait for getUserDates to complete
+
+    dates.forEach((ndate) => {
+      const date = new Date(ndate.time);
+      setContext((prev) => {
+        const newMap = new Map(prev.selectedDates);
+        const day = date.toLocaleDateString("en-US");
+        const hour = date.getHours();
+
+        if (!newMap.has(day)) {
+          newMap.set(day, [hour]);
+        } else {
+          const hoursArray = newMap.get(day);
+          if (!hoursArray.includes(hour)) {
+            hoursArray.push(hour);
+            newMap.set(day, hoursArray);
+          }
+        }
+        return { ...prev, selectedDates: newMap }; // Return the new Map instance
+      });
+    });
+    console.log("heyyyy", context.selectedDates);
+  };
+
+  const isSelected = (date) => {
+    const day = date.toLocaleDateString("en-US");
+    const hour = date.getHours();
+
+    if (!context.selectedDates.has(day)) {
+      return false;
+    } else {
+      const hours = context.selectedDates.get(day);
+      if (hours.includes(hour)) {
+        return true;
+      }
     }
-    return 0;
+    return false;
   };
 
   const contextValue = {
@@ -90,7 +160,10 @@ export const ContextProvider = ({ children }) => {
     getNumParticipants,
     selectDate,
     loadDates,
-    isSlotAvailable,
+    peopleAtTime,
+    storeUserDates,
+    isSelected,
+    incrementUserDate,
   };
 
   return (

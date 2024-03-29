@@ -24,7 +24,7 @@ namespace server.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Person_AvailableTime>>> GetAvailableParticipants()
         {
-            return await _context.AvailableParticipants.ToListAsync();
+            return await _context.AvailableParticipants.Include(av => av.AvailableTime).ToListAsync();
         }
 
         // GET: api/Person_AvailableTime/5
@@ -40,6 +40,7 @@ namespace server.Controllers
 
             return person_AvailableTime;
         }
+
 
         // PUT: api/Person_AvailableTime/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754

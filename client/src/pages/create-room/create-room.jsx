@@ -19,13 +19,12 @@ export const CreateRoom = () => {
     console.log(values);
 
     axios
-      .post("https://localhost:7118/api/Rooms/", {
+      .post(`https://localhost:7118/api/Rooms${values.username}/`, {
         roomName: `${values.roomname}`,
         password: `${values.password}`,
         meetingStart: 9,
         meetingEnd: 17,
         timeInterval: 60,
-        participants: [{ personName: `${values.username}` }],
       })
       .then(function (response) {
         console.log(response);
