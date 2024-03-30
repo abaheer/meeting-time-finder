@@ -1,5 +1,5 @@
 import axios from "axios";
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 
 export const stateContext = createContext();
 
@@ -20,7 +20,7 @@ export const ContextProvider = ({ children }) => {
     axios
       .get(`https://localhost:7118/api/Rooms/${context.roomId}/Participants`)
       .then((res) => {
-        console.log(res.data);
+        console.log("getNumParticipants: ", res.data);
         setContext((prev) => ({
           ...prev,
           numParticipants: res.data.length,
@@ -47,32 +47,43 @@ export const ContextProvider = ({ children }) => {
       });
   };
 
-  const incrementUserDate = (date) => {
-    setContext((prev) => {
-      const temp = new Map(prev.userDates);
-
-      const oldVal = temp.get(date.toString());
-
-      if (!isNaN(oldVal)) {
-        temp.set(date.toString(), oldVal + 1);
-        console.log("baaa", temp);
-        return { ...prev, userDates: temp };
-      }
-
-      temp.set(date.toString(), 1);
-      console.log("mbaaa", temp);
-      return { ...prev, userDates: temp };
-    });
-  };
-
   // return the number of people available at a given time
   const peopleAtTime = (date) => {
     const keyString = date.toString();
 
     if (context.userDates.has(keyString)) {
+      console.log(
+        `peopleAtTIme ${keyString}: `,
+        context.userDates.get(keyString)
+      );
       return context.userDates.get(keyString);
     }
     return 0;
+  };
+
+  const incrementUserDate = (date, increment) => {
+    setContext((prev) => {
+      console.log(date, increment);
+      const temp = new Map(prev.userDates);
+
+      const oldVal = temp.get(date.toString());
+
+      if (!isNaN(oldVal)) {
+        if (increment) {
+          temp.set(date.toString(), oldVal + 1);
+          console.log("INCREMENT", temp);
+          return { ...prev, userDates: temp };
+        } else if (!increment && oldVal > 0) {
+          temp.set(date.toString(), oldVal - 1);
+          console.log("DECREMENT", temp);
+          return { ...prev, userDates: temp };
+        }
+      }
+
+      temp.set(date.toString(), 1);
+      console.log("INCREMENT", temp);
+      return { ...prev, userDates: temp };
+    });
   };
 
   // store dates the user clicks in a selecedDates (date: [times])
@@ -82,13 +93,28 @@ export const ContextProvider = ({ children }) => {
       const day = date.toLocaleDateString("en-US");
       const hour = date.getHours();
 
+      const temp = new Map(prev.userDates);
+      const oldVal = temp.get(date.toString());
+
       if (!newMap.has(day)) {
         newMap.set(day, [hour]);
+        if (!isNaN(oldVal)) {
+          temp.set(date.toString(), oldVal + 1);
+          console.log("INCREMENT", temp);
+        } else {
+          temp.set(date.toString(), 1);
+        }
       } else {
         const hoursArray = newMap.get(day);
         if (!hoursArray.includes(hour)) {
           hoursArray.push(hour);
           newMap.set(day, hoursArray);
+          if (!isNaN(oldVal)) {
+            temp.set(date.toString(), oldVal + 1);
+            console.log("INCREMENT", temp);
+          } else {
+            temp.set(date.toString(), 1);
+          }
         } else {
           newMap.set(
             day,
@@ -96,14 +122,16 @@ export const ContextProvider = ({ children }) => {
               return e !== hour;
             })
           );
+          if (!isNaN(oldVal) && oldVal > 0) {
+            temp.set(date.toString(), oldVal - 1);
+            console.log("DECREMENT", temp);
+          }
         }
       }
 
-      console.log("hey", newMap);
-      return { ...prev, selectedDates: newMap }; // Return the new Map instance
+      console.log("updated selectedDates: ", newMap);
+      return { ...prev, selectedDates: newMap, userDates: temp }; // Return the new Map instance
     });
-
-    incrementUserDate(date);
   };
 
   const getUserDates = () => {
@@ -136,7 +164,6 @@ export const ContextProvider = ({ children }) => {
         return { ...prev, selectedDates: newMap }; // Return the new Map instance
       });
     });
-    console.log("heyyyy", context.selectedDates);
   };
 
   const isSelected = (date) => {
