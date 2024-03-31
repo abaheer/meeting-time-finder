@@ -30,6 +30,62 @@ namespace server.Controllers
             return await _context.Rooms.Include(p => p.Participants).ThenInclude(pa => pa.Person_AvailableTimes).ToListAsync();
         }
 
+        [HttpGet("hastime/{id}")]
+        public async Task<ActionResult<AvailableTime>> HasAvailableTime(int roomId, string time)
+        {
+
+            var room_time = _context.Rooms
+                .Include(t => t.AvailableTimes)
+                .FirstOrDefault(t => t.RoomId == roomId);
+
+
+            DateTime newDate = new DateTime(2012, 12, 25, 10, 30, 50);
+
+            return Ok(200);
+        }
+
+
+        // need to check if time already exists in room.AvailableTimes before overriding it with an empty collection
+
+        [HttpPost("/addTime/{roomId}/{personId}/{time}")]
+        public async Task<ActionResult<Room>> PostRoom(int roomId, int personId, string time)
+        {
+            var room = await _context.Rooms.FindAsync(roomId);
+            if (room == null)
+            {
+                return NotFound("Room not found");
+            }
+
+            var person = await _context.Participants.FindAsync(personId);
+            if (person == null)
+            {
+                return NotFound("Person not found");
+            }
+
+            AvailableTime newTime = new AvailableTime { Time = new DateTime(2024, 3, 31, 10, 0, 0), RoomId = roomId, Room = room };
+            if (room.AvailableTimes == null)
+            {
+                room.AvailableTimes = new List<AvailableTime>();
+            }
+            
+            var AvailableParticiapnts = new Person_AvailableTime { AvailableTime = newTime, Person = person };  
+
+            newTime.Person_AvailableTimes = new Collection<Person_AvailableTime>();
+
+            if (person.Person_AvailableTimes == null)
+            {
+                person.Person_AvailableTimes = new Collection<Person_AvailableTime>();
+            }
+
+            person.Person_AvailableTimes.Add(AvailableParticiapnts);
+
+            room.AvailableTimes.Add(newTime);
+
+            await _context.SaveChangesAsync();
+
+            return Ok(room); 
+        }
+
         // GET: api/Rooms/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Room>> GetRoom(int id)
