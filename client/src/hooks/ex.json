@@ -1,0 +1,215 @@
+{
+    "$id": "1",
+    "roomId": 1,
+    "roomName": "A",
+    "password": "pass",
+    "meetingStart": 9,
+    "meetingEnd": 15,
+    "timeInterval": 60,
+    "availableTimes": null,
+    "participants": {
+      "$id": "2",
+      "$values": [
+        {
+          "$id": "3",
+          "personId": 1,
+          "personName": "Alice",
+          "roomId": 1,
+          "room": {
+            "$ref": "1"
+          },
+          "person_AvailableTimes": {
+            "$id": "4",
+            "$values": [
+              {
+                "$id": "5",
+                "id": 1,
+                "availableTimeId": 1,
+                "availableTime": null,
+                "personId": 1,
+                "person": {
+                  "$ref": "3"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "$id": "6",
+          "personId": 2,
+          "personName": "Bob",
+          "roomId": 1,
+          "room": {
+            "$ref": "1"
+          },
+          "person_AvailableTimes": {
+            "$id": "7",
+            "$values": [
+              {
+                "$id": "8",
+                "id": 2,
+                "availableTimeId": 1,
+                "availableTime": null,
+                "personId": 2,
+                "person": {
+                  "$ref": "6"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "$id": "9",
+          "personId": 3,
+          "personName": "Charlie",
+          "roomId": 1,
+          "room": {
+            "$ref": "1"
+          },
+          "person_AvailableTimes": {
+            "$id": "10",
+            "$values": [
+              {
+                "$id": "11",
+                "id": 3,
+                "availableTimeId": 1,
+                "availableTime": null,
+                "personId": 3,
+                "person": {
+                  "$ref": "9"
+                }
+              },
+              {
+                "$id": "12",
+                "id": 5,
+                "availableTimeId": 3,
+                "availableTime": null,
+                "personId": 3,
+                "person": {
+                  "$ref": "9"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "$id": "13",
+          "personId": 4,
+          "personName": "David",
+          "roomId": 1,
+          "room": {
+            "$ref": "1"
+          },
+          "person_AvailableTimes": {
+            "$id": "14",
+            "$values": [
+              {
+                "$id": "15",
+                "id": 4,
+                "availableTimeId": 1,
+                "availableTime": null,
+                "personId": 4,
+                "person": {
+                  "$ref": "13"
+                }
+              },
+              {
+                "$id": "16",
+                "id": 6,
+                "availableTimeId": 4,
+                "availableTime": null,
+                "personId": 4,
+                "person": {
+                  "$ref": "13"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "$id": "17",
+          "personId": 8,
+          "personName": "Jimmy Fallon",
+          "roomId": 1,
+          "room": {
+            "$ref": "1"
+          },
+          "person_AvailableTimes": {
+            "$id": "18",
+            "$values": []
+          }
+        }
+      ]
+    }
+  }
+
+
+
+  {
+    "$id": "1",
+    "$values": [
+      {
+        "$id": "2",
+        "availableTimeId": 1,
+        "time": "2024-03-26T10:00:00",
+        "roomId": 1,
+        "room": null,
+        "person_AvailableTimes": {
+          "$id": "3",
+          "$values": [
+            {
+              "$id": "4",
+              "id": 3,
+              "availableTimeId": 1,
+              "availableTime": {
+                "$ref": "2"
+              },
+              "personId": 3,
+              "person": {
+                "$id": "5",
+                "personId": 3,
+                "personName": "Charlie",
+                "roomId": 1,
+                "room": null,
+                "person_AvailableTimes": {
+                  "$id": "6",
+                  "$values": [
+                    {
+                      "$ref": "4"
+                    },
+                    {
+                      "$id": "7",
+                      "id": 5,
+                      "availableTimeId": 3,
+                      "availableTime": {
+                        "$id": "8",
+                        "availableTimeId": 3,
+                        "time": "2024-03-26T14:00:00",
+                        "roomId": 1,
+                        "room": null,
+                        "person_AvailableTimes": {
+                          "$id": "9",
+                          "$values": [
+                            {
+                              "$ref": "7"
+                            }
+                          ]
+                        }
+                      },
+                      "personId": 3,
+                      "person": {
+                        "$ref": "5"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "$ref": "8"
+      }
+    ]
+  }
