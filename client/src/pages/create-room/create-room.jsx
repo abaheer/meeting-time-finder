@@ -32,15 +32,6 @@ export const CreateRoom = () => {
       .catch(function (error) {
         console.log(error);
       });
-
-    // axios
-    //   .get("https://localhost:7118/api/Rooms/1")
-    //   .then((response) => {
-    //     console.log(response.data);
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error fetching data:", error);
-    //   });
   };
 
   return (
