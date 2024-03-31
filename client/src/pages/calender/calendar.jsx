@@ -139,9 +139,11 @@ export const Calendar = (props) => {
             />
           );
         })}
-        <button className="mt-2 mb-5 border-white border-2 rounded py-1 px-3 text-white font-bold hover:bg-green-800 flex justify-center items-center">
-          Save
-        </button>
+        <div className="col-start-4 col-span-2 flex justify-center">
+          <button className="transition duration-200 mt-2 mb-5 border-white border-2 rounded py-1 px-3 text-white font-bold bg-blue-500 hover:bg-blue-800">
+            Save
+          </button>
+        </div>
       </div>
     </div>
   );
