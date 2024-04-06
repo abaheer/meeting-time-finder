@@ -1,12 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.Diagnostics;
+using Microsoft.DotNet.Scaffolding.Shared;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.SqlServer.Server;
 using Newtonsoft.Json.Linq;
 using server.Models;
 
@@ -30,20 +35,38 @@ namespace server.Controllers
             return await _context.Rooms.Include(p => p.Participants).ThenInclude(pa => pa.Person_AvailableTimes).ToListAsync();
         }
 
-        [HttpGet("hastime/{id}")]
-        public async Task<ActionResult<AvailableTime>> HasAvailableTime(int roomId, string time)
+        [HttpGet("hastime/{roomId}/{dateString}")]
+        public async Task<ActionResult<AvailableTime>> HasAvailableTime(int roomId, string dateString)
         {
+            var room_time = await _context.Rooms
+                                        .Include(t => t.AvailableTimes)
+                                        .FirstOrDefaultAsync(t => t.RoomId == roomId);
 
-            var room_time = _context.Rooms
-                .Include(t => t.AvailableTimes)
-                .FirstOrDefault(t => t.RoomId == roomId);
+            if (room_time == null)
+            {
+                return NotFound();
+            }
 
+            // Decode the URL encoded date string
+            string decodedDateString = HttpUtility.UrlDecode(dateString);
+            string format = "dd/MM/yyyy HH:mm";
 
-            DateTime newDate = new DateTime(2012, 12, 25, 10, 30, 50);
+            DateTime newDate;
+            try
+            {
+                newDate = DateTime.ParseExact(decodedDateString, format, CultureInfo.InvariantCulture);
+            }
+            catch (FormatException)
+            {
+                return BadRequest("Invalid date format (use dd/mm/yyyy HH:mm)");
+            }
 
-            return Ok(200);
+            var times = room_time.AvailableTimes
+                                 .Where(t => t.Time == newDate)
+                                 .Select(t => new { t.Time, t.RoomId });
+
+            return Ok(times);
         }
-
 
         // need to check if time already exists in room.AvailableTimes before overriding it with an empty collection
 
@@ -62,7 +85,7 @@ namespace server.Controllers
                 return NotFound("Person not found");
             }
 
-            AvailableTime newTime = new AvailableTime { Time = new DateTime(2024, 3, 31, 10, 0, 0), RoomId = roomId, Room = room };
+            AvailableTime newTime = new AvailableTime { Time = new DateTime(2024, 3, 30, 10, 0, 0), RoomId = roomId, Room = room };
             if (room.AvailableTimes == null)
             {
                 room.AvailableTimes = new List<AvailableTime>();
@@ -100,37 +123,14 @@ namespace server.Controllers
             return room;
         }
 
-        // GET: api/Rooms/5
-        [HttpGet("{id}/timeslot")]
-        public async Task<ActionResult<List<int>>> GetSlotCount(int id)
-        {
-            var room = _context.Rooms
-            .Include(r => r.AvailableTimes)
-            .FirstOrDefault(r => r.RoomId == id);
-
-            if (room == null || room.AvailableTimes == null)
-            {
-                return NotFound();
-            }
-
-            List<int> result = new List<int>();
-            foreach (var availableTime in room.AvailableTimes)
-            {
-                if (availableTime.Person_AvailableTimes != null)
-                {
-                    result.Add(availableTime.Person_AvailableTimes.Count);
-                }
-            }
-            return result;
-        }
-
-        // GET: api/5/Participants
-        [HttpGet("{roomId}/Participants")]
-        public async Task<ActionResult<IEnumerable<int>>> GetParticipantIdsForRoom(int roomId)
+        // GET: api/5/SelectedTimes
+        [HttpGet("{roomId}/SelectedTimes")]
+        public async Task<ActionResult<IEnumerable<int>>> GetSelectedTimes(int roomId)
         {
             var room = await _context.Rooms
                                     .Include(r => r.Participants) // Include the Participants collection
                                     .FirstOrDefaultAsync(r => r.RoomId == roomId);
+
 
             if (room == null)
             {
@@ -152,24 +152,28 @@ namespace server.Controllers
             return Ok(availableTimes); // Return participant IDs with 200 OK
         }
 
-        // GET: api/5/Participants/AvailableTimes/Counts
-        [HttpGet("{roomId}/Participants/AvailableTimes/Counts2")]
-        public async Task<ActionResult<IEnumerable<Room>>> GetAvailableTimeCountsForParticipants2(int roomId)
+        // GET: api/5/Participants
+        [HttpGet("{roomId}/Participants")]
+        public async Task<ActionResult<IEnumerable<int>>> GetParticipantIdsForRoom(int roomId)
         {
-            // Retrieve the room with participants
             var room = await _context.Rooms
-                                    .Include(r => r.Participants)
-                                    .ThenInclude(n => n.Person_AvailableTimes) // Include the Participants collection
+                                    .Include(r => r.Participants) // Include the Participants collection
                                     .FirstOrDefaultAsync(r => r.RoomId == roomId);
+
 
             if (room == null)
             {
                 return NotFound(); // Return 404 if room not found
             }
 
-            var timesWithUserId = _context.AvailableParticipants.Where(n => n.PersonId == roomId);
+            var participantIds = room.Participants?.Select(p => new { p.PersonId, p.Person_AvailableTimes });
 
-            return Ok(timesWithUserId);
+            if (participantIds == null || !participantIds.Any())
+            {
+                return NoContent(); // Return 204 if no participants found
+            }
+
+            return Ok(participantIds); // Return participant IDs with 200 OK
         }
 
         // GET: api/5/Participants/AvailableTimes/Counts
