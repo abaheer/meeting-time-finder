@@ -103,8 +103,7 @@ namespace server.Controllers
 
 
             var person = await _context.Participants.FindAsync(personId);
-            Debug.WriteLine(times);
-            Debug.WriteLine("jawn");
+
             if (person == null)
             {
                 return NotFound("Person not found");
@@ -113,7 +112,6 @@ namespace server.Controllers
             // case where time does not exist in room: create a new availableTime object and add it to room and Person_AvailableTimes
             if (times == null)
             {
-                Debug.WriteLine("we creatin newnew");
                 AvailableTime newTime = new AvailableTime { Time = newDate, RoomId = roomId, Room = room };
 
                 if (room.AvailableTimes == null)
@@ -121,7 +119,7 @@ namespace server.Controllers
                     room.AvailableTimes = new List<AvailableTime>();
                 }
 
-                var AvailableParticiapnts = new Person_AvailableTime { AvailableTime = new AvailableTime { Time = newDate, RoomId = roomId, Room = room }, Person = person };
+                var AvailableParticiapnts = new Person_AvailableTime { AvailableTime = newTime, Person = person };
 
                 newTime.Person_AvailableTimes = new Collection<Person_AvailableTime>();
 
@@ -170,47 +168,6 @@ namespace server.Controllers
             return Ok(room);
         }
 
-
-        // need to check if time already exists in room.AvailableTimes before overriding it with an empty collection
-
-        //[HttpPost("/addTime/{roomId}/{personId}/{time}")]
-        //public async Task<ActionResult<Room>> PostRoom(int roomId, int personId, string time)
-        //{
-        //    var room = await _context.Rooms.FindAsync(roomId);
-        //    if (room == null)
-        //    {
-        //        return NotFound("Room not found");
-        //    }
-
-        //    var person = await _context.Participants.FindAsync(personId);
-        //    if (person == null)
-        //    {
-        //        return NotFound("Person not found");
-        //    }
-
-        //    AvailableTime newTime = new AvailableTime { Time = new DateTime(2024, 3, 30, 10, 0, 0), RoomId = roomId, Room = room };
-        //    if (room.AvailableTimes == null)
-        //    {
-        //        room.AvailableTimes = new List<AvailableTime>();
-        //    }
-
-        //    var AvailableParticiapnts = new Person_AvailableTime { AvailableTime = newTime, Person = person };
-
-        //    newTime.Person_AvailableTimes = new Collection<Person_AvailableTime>();
-
-        //    if (person.Person_AvailableTimes == null)
-        //    {
-        //        person.Person_AvailableTimes = new Collection<Person_AvailableTime>();
-        //    }
-
-        //    person.Person_AvailableTimes.Add(AvailableParticiapnts);
-
-        //    room.AvailableTimes.Add(newTime);
-
-        //    await _context.SaveChangesAsync();
-
-        //    return Ok(room);
-        //}
 
         // GET: api/Rooms/5
         [HttpGet("{id}")]
