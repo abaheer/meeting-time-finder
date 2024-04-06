@@ -13,5 +13,9 @@ namespace server.Models
         public Room? Room { get; set; }
         public ICollection<Person_AvailableTime>? Person_AvailableTimes { get; set; }
 
+        internal object Select(Func<object, object> value)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

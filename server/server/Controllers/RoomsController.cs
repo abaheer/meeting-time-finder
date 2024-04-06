@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.DotNet.Scaffolding.Shared;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
 using Microsoft.SqlServer.Server;
 using Newtonsoft.Json.Linq;
 using server.Models;
@@ -68,46 +70,147 @@ namespace server.Controllers
             return Ok(times);
         }
 
-        // need to check if time already exists in room.AvailableTimes before overriding it with an empty collection
-
-        [HttpPost("/addTime/{roomId}/{personId}/{time}")]
-        public async Task<ActionResult<Room>> PostRoom(int roomId, int personId, string time)
+        [HttpPost("/addTime/{roomId}/{personId}/{dateString}")]
+        public async Task<ActionResult<Room>> PostRoom(int roomId, int personId, string dateString)
         {
-            var room = await _context.Rooms.FindAsync(roomId);
+
+            var room = await _context.Rooms
+                            .Include(t => t.AvailableTimes)
+                            .FirstOrDefaultAsync(t => t.RoomId == roomId);
+
             if (room == null)
             {
-                return NotFound("Room not found");
+                return NotFound();
             }
 
+            // Decode the URL encoded date string
+            string decodedDateString = HttpUtility.UrlDecode(dateString);
+            string format = "dd/MM/yyyy HH:mm";
+
+            DateTime newDate;
+            try
+            {
+                newDate = DateTime.ParseExact(decodedDateString, format, CultureInfo.InvariantCulture);
+            }
+            catch (FormatException)
+            {
+                return BadRequest("Invalid date format (use dd/mm/yyyy HH:mm)");
+            }
+
+
+            var times = room.AvailableTimes
+                                 .FirstOrDefault(t => t.Time == newDate);
+
+
             var person = await _context.Participants.FindAsync(personId);
+            Debug.WriteLine(times);
+            Debug.WriteLine("jawn");
             if (person == null)
             {
                 return NotFound("Person not found");
             }
 
-            AvailableTime newTime = new AvailableTime { Time = new DateTime(2024, 3, 30, 10, 0, 0), RoomId = roomId, Room = room };
-            if (room.AvailableTimes == null)
+            // case where time does not exist in room: create a new availableTime object and add it to room and Person_AvailableTimes
+            if (times == null)
             {
-                room.AvailableTimes = new List<AvailableTime>();
+                Debug.WriteLine("we creatin newnew");
+                AvailableTime newTime = new AvailableTime { Time = newDate, RoomId = roomId, Room = room };
+
+                if (room.AvailableTimes == null)
+                {
+                    room.AvailableTimes = new List<AvailableTime>();
+                }
+
+                var AvailableParticiapnts = new Person_AvailableTime { AvailableTime = new AvailableTime { Time = newDate, RoomId = roomId, Room = room }, Person = person };
+
+                newTime.Person_AvailableTimes = new Collection<Person_AvailableTime>();
+
+                if (person.Person_AvailableTimes == null)
+                {
+                    person.Person_AvailableTimes = new Collection<Person_AvailableTime>();
+                }
+
+                person.Person_AvailableTimes.Add(AvailableParticiapnts);
+
+                room.AvailableTimes.Add(newTime);
             }
-            
-            var AvailableParticiapnts = new Person_AvailableTime { AvailableTime = newTime, Person = person };  
 
-            newTime.Person_AvailableTimes = new Collection<Person_AvailableTime>();
-
-            if (person.Person_AvailableTimes == null)
+            // case where time exists but not for current user
+            else
             {
-                person.Person_AvailableTimes = new Collection<Person_AvailableTime>();
+
+                var userTime = await _context.AvailableParticipants.FirstOrDefaultAsync(e => e.PersonId == personId && e.AvailableTimeId == times.AvailableTimeId);
+                if (userTime == null)
+                {
+
+                    AvailableTime existingTime = await _context.AvailableTime.FirstOrDefaultAsync(e => e.Time == newDate);
+                    
+                    if (existingTime != null)
+                    {
+                        Person_AvailableTime newAvailableParticipant = new Person_AvailableTime { Person = person, AvailableTime = existingTime };
+                        if (existingTime.Person_AvailableTimes == null)
+                        {
+                            existingTime.Person_AvailableTimes = new Collection<Person_AvailableTime>();
+                        }
+                        existingTime.Person_AvailableTimes.Add(newAvailableParticipant);
+                        
+                        if (person.Person_AvailableTimes == null)
+                        {
+                            person.Person_AvailableTimes = new Collection<Person_AvailableTime>();
+                        }
+                        person.Person_AvailableTimes.Add(newAvailableParticipant);
+                    }
+                    
+
+                }
             }
 
-            person.Person_AvailableTimes.Add(AvailableParticiapnts);
-
-            room.AvailableTimes.Add(newTime);
-
+            // otherwise, the participant is already available for the selected time and we dont have to do anything.
             await _context.SaveChangesAsync();
-
-            return Ok(room); 
+            return Ok(room);
         }
+
+
+        // need to check if time already exists in room.AvailableTimes before overriding it with an empty collection
+
+        //[HttpPost("/addTime/{roomId}/{personId}/{time}")]
+        //public async Task<ActionResult<Room>> PostRoom(int roomId, int personId, string time)
+        //{
+        //    var room = await _context.Rooms.FindAsync(roomId);
+        //    if (room == null)
+        //    {
+        //        return NotFound("Room not found");
+        //    }
+
+        //    var person = await _context.Participants.FindAsync(personId);
+        //    if (person == null)
+        //    {
+        //        return NotFound("Person not found");
+        //    }
+
+        //    AvailableTime newTime = new AvailableTime { Time = new DateTime(2024, 3, 30, 10, 0, 0), RoomId = roomId, Room = room };
+        //    if (room.AvailableTimes == null)
+        //    {
+        //        room.AvailableTimes = new List<AvailableTime>();
+        //    }
+
+        //    var AvailableParticiapnts = new Person_AvailableTime { AvailableTime = newTime, Person = person };
+
+        //    newTime.Person_AvailableTimes = new Collection<Person_AvailableTime>();
+
+        //    if (person.Person_AvailableTimes == null)
+        //    {
+        //        person.Person_AvailableTimes = new Collection<Person_AvailableTime>();
+        //    }
+
+        //    person.Person_AvailableTimes.Add(AvailableParticiapnts);
+
+        //    room.AvailableTimes.Add(newTime);
+
+        //    await _context.SaveChangesAsync();
+
+        //    return Ok(room);
+        //}
 
         // GET: api/Rooms/5
         [HttpGet("{id}")]
