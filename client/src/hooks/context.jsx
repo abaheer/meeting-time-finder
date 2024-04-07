@@ -10,6 +10,7 @@ const getFreshContext = () => {
     numParticipants: -1, // number of participants in a room.
     selectedDates: new Map(), // current user selected dates.
     userDates: new Map(), // loaded dates from all users so we can display counts (date => count).
+    postDates: new Array(), // dates which will be called to addTime POST method
   };
 };
 
@@ -90,14 +91,25 @@ export const ContextProvider = ({ children }) => {
   const selectDate = (date) => {
     setContext((prev) => {
       const newMap = new Map(prev.selectedDates);
-      const day = date.toLocaleDateString("en-US");
+      const day = date.toLocaleDateString("en-GB");
       const hour = date.getHours();
+      const minutes = 0;
+
+      const newPostDate =
+        day +
+        " " +
+        hour.toString().padStart(2, "0") +
+        ":" +
+        minutes.toString().padStart(2, "0");
+
+      const tempPosts = [...context.postDates];
 
       const temp = new Map(prev.userDates);
       const oldVal = temp.get(date.toString());
 
       if (!newMap.has(day)) {
         newMap.set(day, [hour]);
+        tempPosts.push(newPostDate);
         if (!isNaN(oldVal)) {
           temp.set(date.toString(), oldVal + 1);
           console.log("INCREMENT", temp);
@@ -107,6 +119,7 @@ export const ContextProvider = ({ children }) => {
       } else {
         const hoursArray = newMap.get(day);
         if (!hoursArray.includes(hour)) {
+          tempPosts.push(newPostDate);
           hoursArray.push(hour);
           newMap.set(day, hoursArray);
           if (!isNaN(oldVal)) {
@@ -125,12 +138,27 @@ export const ContextProvider = ({ children }) => {
           if (!isNaN(oldVal) && oldVal > 0) {
             temp.set(date.toString(), oldVal - 1);
             console.log("DECREMENT", temp);
+            console.log("filter -> ", newPostDate, context.postDates);
+            return {
+              ...prev,
+              selectedDates: newMap,
+              userDates: temp,
+              postDates: tempPosts.filter(function (e) {
+                return e !== newPostDate;
+              }),
+            };
           }
         }
       }
 
-      console.log("updated selectedDates: ", newMap);
-      return { ...prev, selectedDates: newMap, userDates: temp }; // Return the new Map instance
+      console.log("updated postDates: ", prev.postDates);
+      console.log("updated selectedDates: ", prev.selectedDates);
+      return {
+        ...prev,
+        selectedDates: newMap,
+        userDates: temp,
+        postDates: tempPosts,
+      };
     });
   };
 
@@ -149,7 +177,7 @@ export const ContextProvider = ({ children }) => {
       const date = new Date(ndate.time);
       setContext((prev) => {
         const newMap = new Map(prev.selectedDates);
-        const day = date.toLocaleDateString("en-US");
+        const day = date.toLocaleDateString("en-GB");
         const hour = date.getHours();
 
         if (!newMap.has(day)) {
@@ -161,13 +189,14 @@ export const ContextProvider = ({ children }) => {
             newMap.set(day, hoursArray);
           }
         }
+        console.log("storeUesrDates");
         return { ...prev, selectedDates: newMap }; // Return the new Map instance
       });
     });
   };
 
   const isSelected = (date) => {
-    const day = date.toLocaleDateString("en-US");
+    const day = date.toLocaleDateString("en-GB");
     const hour = date.getHours();
 
     if (!context.selectedDates.has(day)) {
