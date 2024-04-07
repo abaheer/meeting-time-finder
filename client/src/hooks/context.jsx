@@ -6,7 +6,9 @@ export const stateContext = createContext();
 const getFreshContext = () => {
   return {
     personId: 3,
+    personName: "",
     roomId: 1,
+    roomName: "",
     numParticipants: -1, // number of participants in a room.
     selectedDates: new Map(), // current user selected dates.
     userDates: new Map(), // loaded dates from all users so we can display counts (date => count).
@@ -16,6 +18,17 @@ const getFreshContext = () => {
 
 export const ContextProvider = ({ children }) => {
   const [context, setContext] = useState(getFreshContext());
+
+  const setRoom = (pId, pName, rId, rName) => {
+    setContext((prev) => ({
+      ...prev,
+      personId: pId,
+      personName: pName,
+      roomId: rId,
+      roomName: rName,
+      numParticipants: 1,
+    }));
+  };
 
   const getNumParticipants = () => {
     axios
@@ -224,6 +237,7 @@ export const ContextProvider = ({ children }) => {
   const contextValue = {
     context,
     setContext,
+    setRoom,
     getNumParticipants,
     selectDate,
     loadDates,

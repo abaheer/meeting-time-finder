@@ -2,6 +2,8 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "../../hooks/useForm";
 import axios from "axios";
 import { ENDPOINTS, createAPIEndpoint } from "../../api";
+import { stateContext } from "../../hooks/context";
+import { useContext } from "react";
 
 const getFreshModel = () => ({
   roomname: "",
@@ -13,6 +15,8 @@ export const CreateRoom = () => {
   const navigate = useNavigate();
   const { values, setValues, errors, setErrors, handleInputChange } =
     useForm(getFreshModel);
+
+  const { setRoom } = useContext(stateContext);
 
   const NewRoom = (e) => {
     e.preventDefault();
@@ -28,6 +32,12 @@ export const CreateRoom = () => {
       })
       .then(function (response) {
         console.log(response);
+        setRoom(
+          response.data.participants[0].personId,
+          response.data.participants[0].personName,
+          response.data.roomId,
+          response.data.roomName
+        );
       })
       .catch(function (error) {
         console.log(error);
