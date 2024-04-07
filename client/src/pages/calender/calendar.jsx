@@ -18,8 +18,14 @@ import {
 
 const daysOfTheWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 export const Calendar = (props) => {
-  const { getNumParticipants, loadDates, storeUserDates, addTimes } =
-    useContext(stateContext);
+  const {
+    getNumParticipants,
+    loadDates,
+    storeUserDates,
+    addTimes,
+    personName,
+    roomName,
+  } = useContext(stateContext);
 
   useEffect(() => {
     storeUserDates();
@@ -59,6 +65,10 @@ export const Calendar = (props) => {
 
   return (
     <div className="mt-5 flex flex-wrap justify-center items-center">
+      <h1>
+        {personName}
+        {roomName}
+      </h1>
       <div className="w-[500px] bg-white shadow-2xl border-none">
         <div
           key="uhhh"

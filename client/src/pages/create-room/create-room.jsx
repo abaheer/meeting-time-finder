@@ -38,6 +38,7 @@ export const CreateRoom = () => {
           response.data.roomId,
           response.data.roomName
         );
+        navigate("/room");
       })
       .catch(function (error) {
         console.log(error);
