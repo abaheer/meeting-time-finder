@@ -19,7 +19,7 @@ export const CreateRoom = () => {
     console.log(values);
 
     axios
-      .post(`https://localhost:7118/api/Rooms${values.username}/`, {
+      .post(`https://localhost:7118/api/Rooms/${values.username}/`, {
         roomName: `${values.roomname}`,
         password: `${values.password}`,
         meetingStart: 9,

@@ -18,7 +18,7 @@ import {
 
 const daysOfTheWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 export const Calendar = (props) => {
-  const { getNumParticipants, loadDates, storeUserDates, addTimes, postDates } =
+  const { getNumParticipants, loadDates, storeUserDates, addTimes } =
     useContext(stateContext);
 
   useEffect(() => {
