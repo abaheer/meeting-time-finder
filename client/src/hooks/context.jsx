@@ -162,6 +162,17 @@ export const ContextProvider = ({ children }) => {
     });
   };
 
+  const addTimes = () => {
+    context.postDates.forEach((e) => {
+      console.log(e);
+      axios.post(
+        `https://localhost:7118/addTime/${context.roomId}/${
+          context.personId
+        }/${encodeURIComponent(e)}`
+      );
+    });
+  };
+
   const getUserDates = () => {
     return axios
       .get(`https://localhost:7118/api/People/${context.personId}/GetTimes`)
@@ -220,6 +231,7 @@ export const ContextProvider = ({ children }) => {
     storeUserDates,
     isSelected,
     incrementUserDate,
+    addTimes,
   };
 
   return (

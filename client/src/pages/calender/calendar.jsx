@@ -18,7 +18,7 @@ import {
 
 const daysOfTheWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 export const Calendar = (props) => {
-  const { getNumParticipants, loadDates, storeUserDates, datesSelected } =
+  const { getNumParticipants, loadDates, storeUserDates, addTimes, postDates } =
     useContext(stateContext);
 
   useEffect(() => {
@@ -140,7 +140,10 @@ export const Calendar = (props) => {
           );
         })}
         <div className="col-start-4 col-span-2 flex justify-center">
-          <button className="transition duration-200 mt-2 mb-5 border-white border-2 rounded py-1 px-3 text-white font-bold bg-blue-500 hover:bg-blue-800">
+          <button
+            className="transition duration-200 mt-2 mb-5 border-white border-2 rounded py-1 px-3 text-white font-bold bg-blue-500 hover:bg-blue-800"
+            onClick={addTimes}
+          >
             Save
           </button>
         </div>
