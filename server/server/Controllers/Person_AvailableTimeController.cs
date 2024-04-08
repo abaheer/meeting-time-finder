@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -85,13 +87,35 @@ namespace server.Controllers
         }
 
         // DELETE: api/Person_AvailableTime/5
-        [HttpDelete("{personId}/{availableTimeId}")]
-        public async Task<IActionResult> DeletePerson_AvailableTime(int personId, int availableTimeId)
+        [HttpDelete("{roomId}/{personId}/{dateString}")]
+        public async Task<IActionResult> DeletePerson_AvailableTime(int roomId, int personId, string dateString)
         {
-            var person_AvailableTime = await _context.AvailableParticipants.FirstOrDefaultAsync(p => p.PersonId == personId && p.AvailableTimeId == availableTimeId);
+            // Decode the URL encoded date string
+            string decodedDateString = HttpUtility.UrlDecode(dateString);
+            string format = "dd/MM/yyyy HH:mm";
+
+            DateTime newDate;
+            try
+            {
+                newDate = DateTime.ParseExact(decodedDateString, format, CultureInfo.InvariantCulture);
+            }
+            catch (FormatException)
+            {
+                return BadRequest("Invalid date format (use dd/mm/yyyy HH:mm)");
+            }
+
+            var availableTimeId = await _context.AvailableTime.FirstOrDefaultAsync(t => t.RoomId == roomId && t.Time == newDate);
+            
+            
+            if (availableTimeId == null)
+            {
+                return NotFound(newDate);
+            }
+
+            var person_AvailableTime = await _context.AvailableParticipants.FirstOrDefaultAsync(p => p.PersonId == personId && p.AvailableTimeId == availableTimeId.AvailableTimeId);
             if (person_AvailableTime == null)
             {
-                return NotFound();
+                return NotFound(availableTimeId);
             }
 
             _context.AvailableParticipants.Remove(person_AvailableTime);
