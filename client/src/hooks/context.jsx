@@ -12,7 +12,8 @@ const getFreshContext = () => {
     numParticipants: -1, // number of participants in a room.
     selectedDates: new Map(), // current user selected dates.
     userDates: new Map(), // loaded dates from all users so we can display counts (date => count).
-    postDates: new Array(), // dates which will be called to addTime POST method
+    postDates: new Array(), // dates which will be called to addTime POST method (adding/creating Person_AvailableTime entry)
+    deleteDates: new Array(), // dates which will be called to DELETE POST method (removing Person_AvailableTime entry)
   };
 };
 
@@ -66,10 +67,10 @@ export const ContextProvider = ({ children }) => {
     const keyString = date.toString();
 
     if (context.userDates.has(keyString)) {
-      console.log(
-        `peopleAtTIme ${keyString}: `,
-        context.userDates.get(keyString)
-      );
+      // console.log(
+      //   `peopleAtTIme ${keyString}: `,
+      //   context.userDates.get(keyString)
+      // );
       return context.userDates.get(keyString);
     }
     return 0;
@@ -116,11 +117,13 @@ export const ContextProvider = ({ children }) => {
         minutes.toString().padStart(2, "0");
 
       const tempPosts = [...context.postDates];
+      const tempDelPosts = [...context.deleteDates];
 
       const temp = new Map(prev.userDates);
       const oldVal = temp.get(date.toString());
 
       if (!newMap.has(day)) {
+        // selecting date first time
         newMap.set(day, [hour]);
         tempPosts.push(newPostDate);
         if (!isNaN(oldVal)) {
@@ -141,7 +144,18 @@ export const ContextProvider = ({ children }) => {
           } else {
             temp.set(date.toString(), 1);
           }
+
+          return {
+            ...prev,
+            selectedDates: newMap,
+            userDates: temp,
+            postDates: tempPosts,
+            deleteDates: tempDelPosts.filter(function (e) {
+              return e !== newPostDate;
+            }),
+          };
         } else {
+          tempDelPosts.push[newPostDate];
           newMap.set(
             day,
             hoursArray.filter(function (e) {
@@ -149,9 +163,11 @@ export const ContextProvider = ({ children }) => {
             })
           );
           if (!isNaN(oldVal) && oldVal > 0) {
+            tempDelPosts.push(newPostDate);
             temp.set(date.toString(), oldVal - 1);
             console.log("DECREMENT", temp);
             console.log("filter -> ", newPostDate, context.postDates);
+            console.log("add -> ", newPostDate, context.deleteDates);
             return {
               ...prev,
               selectedDates: newMap,
@@ -159,12 +175,14 @@ export const ContextProvider = ({ children }) => {
               postDates: tempPosts.filter(function (e) {
                 return e !== newPostDate;
               }),
+              deleteDates: tempDelPosts,
             };
           }
         }
       }
 
       console.log("updated postDates: ", prev.postDates);
+      console.log("updated deleteDates: ", prev.deleteDates);
       console.log("updated selectedDates: ", prev.selectedDates);
       return {
         ...prev,
@@ -175,6 +193,7 @@ export const ContextProvider = ({ children }) => {
     });
   };
 
+  // update db
   const addTimes = () => {
     context.postDates.forEach((e) => {
       console.log(e);
@@ -184,16 +203,18 @@ export const ContextProvider = ({ children }) => {
         }/${encodeURIComponent(e)}`
       );
     });
+
+    context.deleteDates.forEach((e) => {
+      console.log(e);
+      axios.delete(
+        `https://localhost:7118/api/Person_AvailableTime/${context.roomId}/${
+          context.personId
+        }/${encodeURIComponent(e)}`
+      );
+    });
   };
 
-  const getUserDates = () => {
-    return axios
-      .get(`https://localhost:7118/api/People/${context.personId}/GetTimes`)
-      .then((res) => {
-        return res.data;
-      });
-  };
-
+  // locally store dates
   const storeUserDates = async () => {
     const dates = await getUserDates(); // Wait for getUserDates to complete
 
@@ -217,6 +238,14 @@ export const ContextProvider = ({ children }) => {
         return { ...prev, selectedDates: newMap }; // Return the new Map instance
       });
     });
+  };
+
+  const getUserDates = () => {
+    return axios
+      .get(`https://localhost:7118/api/People/${context.personId}/GetTimes`)
+      .then((res) => {
+        return res.data;
+      });
   };
 
   const isSelected = (date) => {
