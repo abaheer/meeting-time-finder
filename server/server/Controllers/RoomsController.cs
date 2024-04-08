@@ -99,7 +99,7 @@ namespace server.Controllers
 
 
             var times = room.AvailableTimes
-                                 .FirstOrDefault(t => t.Time == newDate);
+                                 .FirstOrDefault(t => t.Time == newDate && t.RoomId == roomId);
 
 
             var person = await _context.Participants.FindAsync(personId);
