@@ -85,10 +85,10 @@ namespace server.Controllers
         }
 
         // DELETE: api/Person_AvailableTime/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletePerson_AvailableTime(int id)
+        [HttpDelete("{personId}/{availableTimeId}")]
+        public async Task<IActionResult> DeletePerson_AvailableTime(int personId, int availableTimeId)
         {
-            var person_AvailableTime = await _context.AvailableParticipants.FindAsync(id);
+            var person_AvailableTime = await _context.AvailableParticipants.FirstOrDefaultAsync(p => p.PersonId == personId && p.AvailableTimeId == availableTimeId);
             if (person_AvailableTime == null)
             {
                 return NotFound();
