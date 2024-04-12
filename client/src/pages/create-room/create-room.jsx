@@ -2,6 +2,8 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "../../hooks/useForm";
 import axios from "axios";
 import { ENDPOINTS, createAPIEndpoint } from "../../api";
+import { stateContext } from "../../hooks/context";
+import { useContext } from "react";
 
 const getFreshModel = () => ({
   roomname: "",
@@ -14,12 +16,14 @@ export const CreateRoom = () => {
   const { values, setValues, errors, setErrors, handleInputChange } =
     useForm(getFreshModel);
 
+  const { setRoom } = useContext(stateContext);
+
   const NewRoom = (e) => {
     e.preventDefault();
     console.log(values);
 
     axios
-      .post(`https://localhost:7118/api/Rooms${values.username}/`, {
+      .post(`https://localhost:7118/api/Rooms/${values.username}/`, {
         roomName: `${values.roomname}`,
         password: `${values.password}`,
         meetingStart: 9,
@@ -28,19 +32,17 @@ export const CreateRoom = () => {
       })
       .then(function (response) {
         console.log(response);
+        setRoom(
+          response.data.participants[0].personId,
+          response.data.participants[0].personName,
+          response.data.roomId,
+          response.data.roomName
+        );
+        navigate("/room");
       })
       .catch(function (error) {
         console.log(error);
       });
-
-    // axios
-    //   .get("https://localhost:7118/api/Rooms/1")
-    //   .then((response) => {
-    //     console.log(response.data);
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error fetching data:", error);
-    //   });
   };
 
   return (
