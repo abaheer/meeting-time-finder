@@ -32,7 +32,7 @@ namespace server.Controllers
         }
 
         // GET: api/Rooms/Person/{roomid}/{personname} --> method to return Person given roomid and personname (for login page)
-        [HttpGet("Person/{roomid}/{personname}")]
+        [HttpPost("Person/{roomid}/{personname}")]
         public async Task<ActionResult<Person>> GetUser(int roomid, string personname) {
             var room = await _context.Rooms.Include(r => r.Participants).FirstOrDefaultAsync(r => r.RoomId == roomid);
             if (room==null)
@@ -42,7 +42,17 @@ namespace server.Controllers
             var person = room.Participants.FirstOrDefault(e => e.PersonName == personname);
             if (person == null)
             {
-                return NotFound(personname);
+                // Create a new Person object with the provided person's name
+                Person newPerson = new Person { PersonName = personname, RoomId = roomid, Room = room };
+
+                // Add the new Person to the Room's Participants collection
+                room.Participants.Add(newPerson);
+
+                // Save changes to the database
+                await _context.SaveChangesAsync();
+
+                // Return the newly created Person object
+                return CreatedAtAction("GetUser", new { id = newPerson.PersonId }, newPerson);
             }
             
 
