@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.DotNet.Scaffolding.Shared;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using Microsoft.Identity.Client;
 using Microsoft.SqlServer.Server;
 using Newtonsoft.Json.Linq;
@@ -30,9 +31,23 @@ namespace server.Controllers
             _context = context;
         }
 
-        //// GET: api/Rooms/Person
-        //[HttpGet]
-        //public async Task<ActionResult<>>
+        // GET: api/Rooms/Person/{roomid}/{personname} --> method to return Person given roomid and personname (for login page)
+        [HttpGet("Person/{roomid}/{personname}")]
+        public async Task<ActionResult<Person>> GetUser(int roomid, string personname) {
+            var room = await _context.Rooms.Include(r => r.Participants).FirstOrDefaultAsync(r => r.RoomId == roomid);
+            if (room==null)
+            {
+                return NotFound(roomid);
+            }
+            var person = room.Participants.FirstOrDefault(e => e.PersonName == personname);
+            if (person == null)
+            {
+                return NotFound(personname);
+            }
+            
+
+            return Ok(person);
+        }
 
         // GET: api/Rooms
         [HttpGet]
