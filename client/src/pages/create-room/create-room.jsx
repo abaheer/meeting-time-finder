@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "../../hooks/useForm";
 import axios from "axios";
 import { stateContext } from "../../hooks/context";
@@ -109,6 +109,9 @@ export const CreateRoom = () => {
               Create Room
             </button>
           </div>
+          <Link to="/join" className="flex justify-center">
+            Or Join an existing room
+          </Link>
         </form>
       </div>
     </div>
