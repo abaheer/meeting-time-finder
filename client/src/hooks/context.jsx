@@ -263,6 +263,11 @@ export const ContextProvider = ({ children }) => {
     return false;
   };
 
+  // TESTING
+  useEffect(() => {
+    console.log("roomid changed!!!! --> ", context.roomId);
+  }, [context.roomId]);
+
   const contextValue = {
     context,
     setContext,

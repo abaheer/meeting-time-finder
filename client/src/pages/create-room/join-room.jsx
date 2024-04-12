@@ -5,12 +5,12 @@ import { stateContext } from "../../hooks/context";
 import { useContext } from "react";
 
 const getFreshModel = () => ({
-  roomname: "",
+  roomid: "",
   username: "",
   password: "",
 });
 
-export const CreateRoom = () => {
+export const JoinRoom = () => {
   const navigate = useNavigate();
   const { values, setValues, errors, setErrors, handleInputChange } =
     useForm(getFreshModel);
@@ -22,20 +22,16 @@ export const CreateRoom = () => {
     console.log(values);
 
     axios
-      .post(`https://localhost:7118/api/Rooms/${values.username}/`, {
-        roomName: `${values.roomname}`,
-        password: `${values.password}`,
-        meetingStart: 9,
-        meetingEnd: 17,
-        timeInterval: 60,
-      })
+      .get(
+        `https://localhost:7118/api/Rooms/Person/${values.roomid}/${values.username}`
+      ) //return person object
       .then(function (response) {
         console.log(response);
         setRoom(
-          response.data.participants[0].personId,
-          response.data.participants[0].personName,
-          response.data.roomId,
-          response.data.roomName
+          response.data.personId,
+          response.data.personName,
+          response.data.room.roomId,
+          response.data.room.roomName
         );
         navigate("/room");
       })
@@ -72,16 +68,16 @@ export const CreateRoom = () => {
           <div className="mb-4">
             <label
               className="block text-gray-700 text-sm font-bold mb-2"
-              htmlFor="username"
+              htmlFor="roomid"
             >
-              Room Name
+              Room Code
             </label>
             <input
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              name="roomname"
-              type="text"
-              placeholder="Project Meeting Schedule"
-              value={values.roomname}
+              name="roomid"
+              type="number"
+              placeholder="12345"
+              value={values.roomid}
               onChange={handleInputChange}
             />
           </div>
@@ -106,7 +102,7 @@ export const CreateRoom = () => {
               className="transition duration-300 bg-sky-600 hover:bg-sky-950 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               type="submit"
             >
-              Create Room
+              Join Room
             </button>
           </div>
         </form>
