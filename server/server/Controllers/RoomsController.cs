@@ -30,6 +30,10 @@ namespace server.Controllers
             _context = context;
         }
 
+        //// GET: api/Rooms/Person
+        //[HttpGet]
+        //public async Task<ActionResult<>>
+
         // GET: api/Rooms
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Room>>> GetRooms()
