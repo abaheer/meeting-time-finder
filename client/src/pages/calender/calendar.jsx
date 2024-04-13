@@ -15,17 +15,12 @@ import {
   eachDayOfInterval,
   isSameWeek,
 } from "date-fns";
+import { Link } from "react-router-dom";
 
 const daysOfTheWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 export const Calendar = (props) => {
-  const {
-    getNumParticipants,
-    loadDates,
-    storeUserDates,
-    addTimes,
-    personName,
-    roomName,
-  } = useContext(stateContext);
+  const { getNumParticipants, loadDates, storeUserDates, addTimes, context } =
+    useContext(stateContext);
 
   useEffect(() => {
     storeUserDates();
@@ -64,100 +59,112 @@ export const Calendar = (props) => {
   };
 
   return (
-    <div className="mt-5 flex flex-wrap justify-center items-center">
-      <h1>
-        {personName}
-        {roomName}
-      </h1>
-      <div className="w-[500px] bg-white shadow-2xl border-none">
-        <div
-          key="uhhh"
-          className="grid grid-cols-7 border-t border-l justify-center items-center text-center"
-        >
-          <Cell className="col-span-2" text={"<"} onClick={prevMonth} />
-          <Cell
-            className="col-span-3"
-            text={
-              props.value.toLocaleString("default", { month: "long" }) +
-              " " +
-              props.value.getFullYear()
-            }
-          />
-          <Cell className="col-span-2" text={">"} onClick={nextMonth} />
-          {daysOfTheWeek.map((day) => {
-            return (
-              <Cell
-                key={day}
-                className="col-span-1 text-sm font-bold"
-                text={day}
-              />
-            );
-          })}
-
-          {beforeCells.map((_, index) => {
-            return (
-              <Cell key={`before${index}`} className="col-span-1" text={""} />
-            );
-          })}
-
-          {daysArray.map((_, dayOfTheMonth) => {
-            return (
-              <Cell
-                key={`after${dayOfTheMonth}`}
-                className={
-                  "col-span-1 " +
-                  (props.value &&
-                  isSameWeek(datesOfTheMonth[dayOfTheMonth], props.value)
-                    ? " bg-blue-500 text-white"
-                    : "")
-                }
-                text={datesOfTheMonth[dayOfTheMonth].getDate()}
-                onClick={() => {
-                  setCurrentDay(dayOfTheMonth + 1);
-                }}
-              />
-            );
-          })}
-
-          {afterCells.map((_, index) => {
-            return (
-              <Cell key={`after${index}`} className="col-span-1" text={""} />
-            );
-          })}
-        </div>
-      </div>
-      <h1>{props.value.getDate()}</h1>
-
-      <div className="border-2 grid grid-cols-8 items-center justify-center">
-        <div className="text-xl grid grid-rows-9 justify-center leading-8 mt-7">
-          <h1>9</h1>
-          <h1>10</h1>
-          <h1>11</h1>
-          <h1>12</h1>
-          <h1>1</h1>
-          <h1>2</h1>
-          <h1>3</h1>
-          <h1>4</h1>
-          <h1>5</h1>
-        </div>
-        {numWeekDays.map((_, index) => {
-          return (
-            <TimeSlots
-              key={`TimeSlot${index}`}
-              startWeek={startOfWeek(props.value)}
-              dayIndex={index}
-            />
-          );
-        })}
-        <div className="col-start-4 col-span-2 flex justify-center">
-          <button
-            className="transition duration-200 mt-2 mb-5 border-white border-2 rounded py-1 px-3 text-white font-bold bg-blue-500 hover:bg-blue-800"
-            onClick={addTimes}
+    <>
+      <nav className="flex justify-center bg-sky-900 text-white font-medium p-4 text-2xl">
+        <Link to="/join">
+          <h1 className="ml-2 text-right float-right">Join Room</h1>
+        </Link>
+        <h1 className="ml-2 mr-2"> | </h1>
+        <Link to="/">
+          <h1 className="text-right float-right">Create Room</h1>
+        </Link>
+      </nav>
+      <div className="mt-5 flex justify-center items-center">
+        <div className="w-[500px] bg-white shadow-2xl border-none">
+          <div
+            key="uhhh"
+            className="grid grid-cols-7 border-t border-l justify-center items-center text-center"
           >
-            Save
-          </button>
+            <Cell className="col-span-2" text={"<"} onClick={prevMonth} />
+            <Cell
+              className="col-span-3"
+              text={
+                props.value.toLocaleString("default", { month: "long" }) +
+                " " +
+                props.value.getFullYear()
+              }
+            />
+            <Cell className="col-span-2" text={">"} onClick={nextMonth} />
+            {daysOfTheWeek.map((day) => {
+              return (
+                <Cell
+                  key={day}
+                  className="col-span-1 text-sm font-bold"
+                  text={day}
+                />
+              );
+            })}
+
+            {beforeCells.map((_, index) => {
+              return (
+                <Cell key={`before${index}`} className="col-span-1" text={""} />
+              );
+            })}
+
+            {daysArray.map((_, dayOfTheMonth) => {
+              return (
+                <Cell
+                  key={`after${dayOfTheMonth}`}
+                  className={
+                    "col-span-1 " +
+                    (props.value &&
+                    isSameWeek(datesOfTheMonth[dayOfTheMonth], props.value)
+                      ? " bg-blue-500 text-white"
+                      : "")
+                  }
+                  text={datesOfTheMonth[dayOfTheMonth].getDate()}
+                  onClick={() => {
+                    setCurrentDay(dayOfTheMonth + 1);
+                  }}
+                />
+              );
+            })}
+
+            {afterCells.map((_, index) => {
+              return (
+                <Cell key={`after${index}`} className="col-span-1" text={""} />
+              );
+            })}
+          </div>
+        </div>
+        <h1>{props.value.getDate()}</h1>
+
+        <div className="border-2 grid grid-cols-8 items-center justify-center">
+          <div className="text-xl grid grid-rows-9 justify-center leading-8 mt-7">
+            <h1>9</h1>
+            <h1>10</h1>
+            <h1>11</h1>
+            <h1>12</h1>
+            <h1>1</h1>
+            <h1>2</h1>
+            <h1>3</h1>
+            <h1>4</h1>
+            <h1>5</h1>
+          </div>
+          {numWeekDays.map((_, index) => {
+            return (
+              <TimeSlots
+                key={`TimeSlot${index}`}
+                startWeek={startOfWeek(props.value)}
+                dayIndex={index}
+              />
+            );
+          })}
+          <div className="col-start-4 col-span-2 flex justify-center">
+            <button
+              className="transition duration-200 mt-2 mb-5 border-white border-2 rounded py-1 px-3 text-white font-bold bg-blue-500 hover:bg-blue-800"
+              onClick={addTimes}
+            >
+              Save
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+      <div className="flex justify-center">
+        {" "}
+        <h1>person name = {context.personName}</h1>
+        <h1>room name = {context.roomName}</h1>
+      </div>
+    </>
   );
 };

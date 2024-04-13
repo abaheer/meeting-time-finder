@@ -104,7 +104,6 @@ namespace server.Controllers
         {
 
             var room = await _context.Rooms
-                            .Include(t => t.AvailableTimes)
                             .FirstOrDefaultAsync(t => t.RoomId == roomId);
 
             if (room == null)
@@ -127,8 +126,7 @@ namespace server.Controllers
             }
 
 
-            var times = room.AvailableTimes
-                                 .FirstOrDefault(t => t.Time == newDate && t.RoomId == roomId);
+            var times = await _context.AvailableTime.FirstOrDefaultAsync(t => t.Time == newDate && t.RoomId == roomId);
 
 
             var person = await _context.Participants.FindAsync(personId);
@@ -165,12 +163,11 @@ namespace server.Controllers
             // case where time exists but not for current user
             else
             {
-
-                var userTime = await _context.AvailableParticipants.FirstOrDefaultAsync(e => e.PersonId == personId && e.AvailableTimeId == times.AvailableTimeId);
+                var userTime = await _context.AvailableParticipants.FirstOrDefaultAsync(e => e.PersonId == personId && e.AvailableTime.RoomId == roomId && e.AvailableTime.Time == newDate);
                 if (userTime == null)
                 {
 
-                    AvailableTime existingTime = await _context.AvailableTime.FirstOrDefaultAsync(e => e.Time == newDate);
+                    AvailableTime existingTime = await _context.AvailableTime.FirstOrDefaultAsync(e => e.Time == newDate && e.RoomId == roomId);
                     
                     if (existingTime != null)
                     {

@@ -15,9 +15,9 @@ function App() {
         name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"
       />
-      <h1 className="font-semibold text-5xl text-center mt-2">
+      {/* <h1 className="font-semibold text-5xl text-center mt-2">
         when can we meet?
-      </h1>
+      </h1> */}
       <Router>
         <Routes>
           <Route

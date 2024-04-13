@@ -33,7 +33,11 @@ export const ContextProvider = ({ children }) => {
       personName: localStorage.getItem("personName"),
       roomId: localStorage.getItem("roomId"),
       roomName: localStorage.getItem("roomName"),
-      numParticipants: 1,
+      numParticipants: -1, // number of participants in a room.
+      selectedDates: new Map(), // current user selected dates.
+      userDates: new Map(), // loaded dates from all users so we can display counts (date => count).
+      postDates: new Array(), // dates which will be called to addTime POST method (adding/creating Person_AvailableTime entry)
+      deleteDates: new Array(),
     }));
     console.log(localStorage);
   };
