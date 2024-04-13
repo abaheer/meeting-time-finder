@@ -22,7 +22,7 @@ export const JoinRoom = () => {
     console.log(values);
 
     axios
-      .get(
+      .post(
         `https://localhost:7118/api/Rooms/Person/${values.roomid}/${values.username}`
       ) //return person object
       .then(function (response) {
