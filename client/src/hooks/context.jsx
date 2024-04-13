@@ -223,6 +223,11 @@ export const ContextProvider = ({ children }) => {
         }/${encodeURIComponent(e)}`
       );
     });
+
+    // reset dates to be adding and deleting
+    setContext((prev) => {
+      return { ...prev, postDates: new Array(), deleteDates: new Array() };
+    });
   };
 
   // locally store dates
