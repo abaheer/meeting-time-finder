@@ -27,7 +27,7 @@ export const Slot = ({ date }) => {
       onClick={handleOnClick}
       className={`transition text-black ${
         text > 0 && isSelected(date) ? `bg-green-400` : `bg-red-400`
-      } transition-duration:150ms cursor-pointer mb-2 w-12 rounded font-bold text-center`}
+      } flex items-center justify-center h-10 border-b transition-duration:150ms cursor-pointer font-bold text-center`}
     >
       {`${text}/${context.numParticipants}`}
     </div>

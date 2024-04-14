@@ -13,10 +13,7 @@ export const TimeSlots = (props) => {
   });
 
   return (
-    <div className="flex flex-col items-center justify-center">
-      <h1 className="w-14 mt-2 flex justify-center font-bold text-xl">
-        {day.getDate()}
-      </h1>
+    <div className="border-t border-l justify-center items-center text-center">
       {hourIntervals.map((date, i) => (
         <Slot
           key={i}

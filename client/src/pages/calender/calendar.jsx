@@ -69,6 +69,7 @@ export const Calendar = (props) => {
           <h1 className="text-right float-right">Create Room</h1>
         </Link>
       </nav>
+
       <div className="mt-5 flex justify-center items-center">
         <div className="w-[500px] bg-white shadow-2xl border-none">
           <div
@@ -85,83 +86,54 @@ export const Calendar = (props) => {
               }
             />
             <Cell className="col-span-2" text={">"} onClick={nextMonth} />
-            {daysOfTheWeek.map((day) => {
+            {daysOfTheWeek.map((day, index) => {
               return (
                 <Cell
                   key={day}
                   className="col-span-1 text-sm font-bold"
                   text={day}
+                  startWeek={props.value}
+                  dayIndex={index}
                 />
               );
             })}
-
-            {beforeCells.map((_, index) => {
+            {numWeekDays.map((_, index) => {
               return (
-                <Cell key={`before${index}`} className="col-span-1" text={""} />
-              );
-            })}
-
-            {daysArray.map((_, dayOfTheMonth) => {
-              return (
-                <Cell
-                  key={`after${dayOfTheMonth}`}
-                  className={
-                    "col-span-1 " +
-                    (props.value &&
-                    isSameWeek(datesOfTheMonth[dayOfTheMonth], props.value)
-                      ? " bg-blue-500 text-white"
-                      : "")
-                  }
-                  text={datesOfTheMonth[dayOfTheMonth].getDate()}
-                  onClick={() => {
-                    setCurrentDay(dayOfTheMonth + 1);
-                  }}
+                <TimeSlots
+                  key={`TimeSlot${index}`}
+                  startWeek={startOfWeek(props.value)}
+                  dayIndex={index}
                 />
               );
             })}
+          </div>
 
-            {afterCells.map((_, index) => {
-              return (
-                <Cell key={`after${index}`} className="col-span-1" text={""} />
-              );
-            })}
+          <div className="border-2 grid grid-cols-8 items-center justify-center">
+            {/* <div className="text-xl grid grid-rows-9 justify-center leading-8 mt-7">
+              <h1>9</h1>
+              <h1>10</h1>
+              <h1>11</h1>
+              <h1>12</h1>
+              <h1>1</h1>
+              <h1>2</h1>
+              <h1>3</h1>
+              <h1>4</h1>
+              <h1>5</h1>
+            </div> */}
+            <div className="col-start-4 col-span-2 flex justify-center">
+              <button
+                type="submit"
+                className="transition duration-200 mt-2 mb-5 border-white border-2 rounded py-1 px-3 text-white font-bold bg-blue-500 hover:bg-blue-800"
+                onClick={addTimes}
+              >
+                Save
+              </button>
+            </div>
           </div>
         </div>
         <h1>{props.value.getDate()}</h1>
-
-        <div className="border-2 grid grid-cols-8 items-center justify-center">
-          <div className="text-xl grid grid-rows-9 justify-center leading-8 mt-7">
-            <h1>9</h1>
-            <h1>10</h1>
-            <h1>11</h1>
-            <h1>12</h1>
-            <h1>1</h1>
-            <h1>2</h1>
-            <h1>3</h1>
-            <h1>4</h1>
-            <h1>5</h1>
-          </div>
-          {numWeekDays.map((_, index) => {
-            return (
-              <TimeSlots
-                key={`TimeSlot${index}`}
-                startWeek={startOfWeek(props.value)}
-                dayIndex={index}
-              />
-            );
-          })}
-          <div className="col-start-4 col-span-2 flex justify-center">
-            <button
-              type="submit"
-              className="transition duration-200 mt-2 mb-5 border-white border-2 rounded py-1 px-3 text-white font-bold bg-blue-500 hover:bg-blue-800"
-              onClick={addTimes}
-            >
-              Save
-            </button>
-          </div>
-        </div>
       </div>
-      <div className="flex justify-center">
+      <div className="flex-col text-center *:justify-center">
         {" "}
         <h1>person name = {context.personName}</h1>
         <h1>room name = {context.roomName}</h1>
