@@ -54,6 +54,14 @@ export const Calendar = (props) => {
     props.onChange((prev) => sub(prev, { months: 1 }));
   };
 
+  const prevWeek = () => {
+    props.onChange((prev) => sub(prev, { weeks: 1 }));
+  };
+
+  const nextWeek = () => {
+    props.onChange((prev) => add(prev, { weeks: 1 }));
+  };
+
   const setCurrentDay = (dayOfTheMonth) => {
     props.onChange((prev) => set(prev, { date: dayOfTheMonth }));
   };
@@ -76,7 +84,8 @@ export const Calendar = (props) => {
             key="uhhh"
             className="grid grid-cols-7 border-t border-l justify-center items-center text-center"
           >
-            <Cell className="col-span-2" text={"<"} onClick={prevMonth} />
+            <Cell className="col-span-1" text={"<<"} onClick={prevMonth} />
+            <Cell className="col-span-1" text={"<"} onClick={prevWeek} />
             <Cell
               className="col-span-3"
               text={
@@ -85,12 +94,13 @@ export const Calendar = (props) => {
                 props.value.getFullYear()
               }
             />
-            <Cell className="col-span-2" text={">"} onClick={nextMonth} />
+            <Cell className="col-span-1" text={">"} onClick={nextWeek} />
+            <Cell className="col-span-1" text={">>"} onClick={nextMonth} />
             {daysOfTheWeek.map((day, index) => {
               return (
                 <Cell
                   key={day}
-                  className="col-span-1 text-sm font-bold"
+                  className="col-span-1 grid grid-rows-2 h-10 text-l"
                   text={day}
                   startWeek={props.value}
                   dayIndex={index}
@@ -131,7 +141,6 @@ export const Calendar = (props) => {
             </div>
           </div>
         </div>
-        <h1>{props.value.getDate()}</h1>
       </div>
       <div className="flex-col text-center *:justify-center">
         {" "}

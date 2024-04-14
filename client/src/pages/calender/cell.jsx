@@ -22,8 +22,8 @@ export const Cell = (props) => {
         props.dayOfTheMonth
       )}
     >
-      <h1>{props.text}</h1>
-      <h2 className="font-medium">{day && day.getDate()}</h2>
+      <h1>{props.text} </h1>
+      <h2 className="font-bold">{day && day.getDate()}</h2>
     </div>
   );
 };
