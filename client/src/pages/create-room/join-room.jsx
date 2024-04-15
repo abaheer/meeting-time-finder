@@ -47,7 +47,7 @@ export const JoinRoom = () => {
           noValidate
           autoComplete="off"
           onSubmit={NewRoom}
-          className="transition duration-300 bg-white hover:shadow-xl border-sky-600 border-8 rounded-3xl px-8 pt-6 pb-8 mb-4"
+          className="bg-white border-black border-4 rounded-md px-8 pt-6 pb-8 mb-4"
         >
           <div className="mb-4">
             <label
@@ -81,7 +81,7 @@ export const JoinRoom = () => {
               onChange={handleInputChange}
             />
           </div>
-          <div className="mb-6">
+          {/* <div className="mb-6">
             <label
               className="block text-gray-700 text-sm font-bold mb-2"
               htmlFor="password"
@@ -96,16 +96,16 @@ export const JoinRoom = () => {
               value={values.password}
               onChange={handleInputChange}
             />
-          </div>
+          </div> */}
           <div className="flex items-center justify-center">
             <button
-              className="transition duration-300 bg-sky-600 hover:bg-sky-950 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              className="mt-2 transition duration-300 bg-sky-600 hover:bg-sky-950 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               type="submit"
             >
               Join Room
             </button>
           </div>
-          <Link to="/" className="flex justify-center">
+          <Link to="/" className="mt-2 underline flex justify-center">
             Or Create a room
           </Link>
         </form>

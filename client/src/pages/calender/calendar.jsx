@@ -79,15 +79,16 @@ export const Calendar = (props) => {
       </nav>
 
       <div className="mt-5 flex justify-center items-center">
-        <div className="w-[500px] bg-white shadow-2xl border-none">
+        <div className="w-[600px] bg-white shadow-sm border-none">
           <div
             key="uhhh"
-            className="grid grid-cols-7 border-t border-l justify-center items-center text-center"
+            className="grid grid-cols-8 border-t border-l justify-center items-center text-center"
           >
+            {/* <Cell className="col-span-1" text={""} onClick={prevMonth} /> */}
             <Cell className="col-span-1" text={"<<"} onClick={prevMonth} />
             <Cell className="col-span-1" text={"<"} onClick={prevWeek} />
             <Cell
-              className="col-span-3"
+              className="col-span-4"
               text={
                 props.value.toLocaleString("default", { month: "long" }) +
                 " " +
@@ -96,6 +97,7 @@ export const Calendar = (props) => {
             />
             <Cell className="col-span-1" text={">"} onClick={nextWeek} />
             <Cell className="col-span-1" text={">>"} onClick={nextMonth} />
+            <Cell className="col-span-1" text={""} />
             {daysOfTheWeek.map((day, index) => {
               return (
                 <Cell
@@ -107,6 +109,19 @@ export const Calendar = (props) => {
                 />
               );
             })}
+
+            <div className="text-l">
+              <Cell className="col-span-1 h-12" text={"9am"} />
+              <Cell className="col-span-1 h-12" text={"10am"} />
+              <Cell className="col-span-1 h-12" text={"11am"} />
+              <Cell className="col-span-1 h-12" text={"12pm"} />
+              <Cell className="col-span-1 h-12" text={"1pm"} />
+              <Cell className="col-span-1 h-12" text={"2pm"} />
+              <Cell className="col-span-1 h-12" text={"3pm"} />
+              <Cell className="col-span-1 h-12" text={"4pm"} />
+              <Cell className="col-span-1 h-12" text={"5pm"} />
+            </div>
+
             {numWeekDays.map((_, index) => {
               return (
                 <TimeSlots
@@ -119,18 +134,7 @@ export const Calendar = (props) => {
           </div>
 
           <div className="border-2 grid grid-cols-8 items-center justify-center">
-            {/* <div className="text-xl grid grid-rows-9 justify-center leading-8 mt-7">
-              <h1>9</h1>
-              <h1>10</h1>
-              <h1>11</h1>
-              <h1>12</h1>
-              <h1>1</h1>
-              <h1>2</h1>
-              <h1>3</h1>
-              <h1>4</h1>
-              <h1>5</h1>
-            </div> */}
-            <div className="col-start-4 col-span-2 flex justify-center">
+            <div className="col-span-8 flex justify-center">
               <button
                 type="submit"
                 className="transition duration-200 mt-2 mb-5 border-white border-2 rounded py-1 px-3 text-white font-bold bg-blue-500 hover:bg-blue-800"
@@ -142,10 +146,11 @@ export const Calendar = (props) => {
           </div>
         </div>
       </div>
-      <div className="flex-col text-center *:justify-center">
+      <div className="flex-col text-center justify-center mt-5">
         {" "}
         <h1>person name = {context.personName}</h1>
         <h1>room name = {context.roomName}</h1>
+        <h1>room id = {context.roomId}</h1>
       </div>
     </>
   );

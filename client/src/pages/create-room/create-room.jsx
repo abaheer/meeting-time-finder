@@ -51,7 +51,7 @@ export const CreateRoom = () => {
           noValidate
           autoComplete="off"
           onSubmit={NewRoom}
-          className="transition duration-300 bg-white hover:shadow-xl border-sky-600 border-8 rounded-3xl px-8 pt-6 pb-8 mb-4"
+          className="bg-white border-4 border-black rounded-md px-8 pt-6 pb-8 mb-4"
         >
           <div className="mb-4">
             <label
@@ -85,7 +85,7 @@ export const CreateRoom = () => {
               onChange={handleInputChange}
             />
           </div>
-          <div className="mb-6">
+          {/* <div className="mb-6">
             <label
               className="block text-gray-700 text-sm font-bold mb-2"
               htmlFor="password"
@@ -100,16 +100,16 @@ export const CreateRoom = () => {
               value={values.password}
               onChange={handleInputChange}
             />
-          </div>
+          </div> */}
           <div className="flex items-center justify-center">
             <button
-              className="transition duration-300 bg-sky-600 hover:bg-sky-950 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              className="transition duration-300 bg-sky-600 hover:bg-sky-950 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-2"
               type="submit"
             >
               Create Room
             </button>
           </div>
-          <Link to="/join" className="flex justify-center">
+          <Link to="/join" className="flex justify-center mt-2 underline">
             Or Join an existing room
           </Link>
         </form>

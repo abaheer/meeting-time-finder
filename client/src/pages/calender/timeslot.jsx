@@ -13,7 +13,7 @@ export const TimeSlots = (props) => {
   });
 
   return (
-    <div className="border-t border-l justify-center items-center text-center">
+    <div className="border-t border-l justify-center items-center text-center select-none">
       {hourIntervals.map((date, i) => (
         <Slot
           key={i}
