@@ -94,8 +94,7 @@
               "RelativeToolTip": "server\\Migrations\\MeetingDbContextModelSnapshot.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-15T05:34:32.649Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-15T05:34:32.649Z"
             },
             {
               "$type": "Document",
@@ -107,8 +106,7 @@
               "RelativeToolTip": "server\\Models\\AvailableTime.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAoAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-23T04:49:41.347Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-03-23T04:49:41.347Z"
             },
             {
               "$type": "Document",
@@ -120,8 +118,7 @@
               "RelativeToolTip": "server\\Migrations\\20240326062127_intitial-create.cs",
               "ViewState": "AQIAAF0AAAAAAAAAAAAYwHoAAAAnAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-26T06:21:27.756Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-03-26T06:21:27.756Z"
             },
             {
               "$type": "Document",
@@ -133,8 +130,7 @@
               "RelativeToolTip": "server\\Controllers\\PeopleController.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAGQAAAAuAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-26T17:20:40.333Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-03-26T17:20:40.333Z"
             },
             {
               "$type": "Document",
@@ -146,8 +142,7 @@
               "RelativeToolTip": "server\\Controllers\\AvailableTimesController.cs",
               "ViewState": "AQIAACEAAAAAAAAAAAAqwBkAAAAJAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-26T17:21:27.702Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-03-26T17:21:27.702Z"
             },
             {
               "$type": "Document",
@@ -159,8 +154,7 @@
               "RelativeToolTip": "server\\Program.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAfAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-23T03:29:35.104Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-03-23T03:29:35.104Z"
             },
             {
               "$type": "Document",
@@ -172,8 +166,7 @@
               "RelativeToolTip": "server\\Models\\Room.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAABHAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-23T03:22:33.039Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-03-23T03:22:33.039Z"
             },
             {
               "$type": "Document",
@@ -185,8 +178,7 @@
               "RelativeToolTip": "server\\Models\\Person.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAABVAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-23T03:25:19.619Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-03-23T03:25:19.619Z"
             },
             {
               "$type": "Document",
@@ -196,7 +188,7 @@
               "RelativeDocumentMoniker": "server\\Controllers\\RoomsController.cs",
               "ToolTip": "D:\\Windows Folders\\Desktop\\projex\\meeting-time-finder\\server\\server\\Controllers\\RoomsController.cs",
               "RelativeToolTip": "server\\Controllers\\RoomsController.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABYAAAAfAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABQAAAAcAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-03-26T16:04:41.054Z",
               "EditorCaption": ""
@@ -211,8 +203,7 @@
               "RelativeToolTip": "server\\Controllers\\Person_AvailableTimeController.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAFkAAAAeAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-26T17:25:41.107Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-03-26T17:25:41.107Z"
             },
             {
               "$type": "Document",
@@ -224,8 +215,7 @@
               "RelativeToolTip": "server\\Models\\MeetingDbContext.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAABQAAAAyAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-23T03:51:49.437Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-03-23T03:51:49.437Z"
             },
             {
               "$type": "Document",
@@ -237,8 +227,7 @@
               "RelativeToolTip": "server\\Models\\Person_AvailableTime.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAAlAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-26T05:39:45.249Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-03-26T05:39:45.249Z"
             },
             {
               "$type": "Document",
@@ -273,8 +262,7 @@
               "RelativeToolTip": "server\\appsettings.json",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAABrAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-03-23T03:47:30.786Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-03-23T03:47:30.786Z"
             },
             {
               "$type": "Document",
