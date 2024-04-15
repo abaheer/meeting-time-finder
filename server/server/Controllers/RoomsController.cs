@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.DotNet.Scaffolding.Shared;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using Microsoft.Identity.Client;
 using Microsoft.SqlServer.Server;
 using Newtonsoft.Json.Linq;
@@ -30,9 +31,33 @@ namespace server.Controllers
             _context = context;
         }
 
-        //// GET: api/Rooms/Person
-        //[HttpGet]
-        //public async Task<ActionResult<>>
+        // GET: api/Rooms/Person/{roomid}/{personname} --> method to return Person given roomid and personname (for login page)
+        [HttpPost("Person/{roomid}/{personname}")]
+        public async Task<ActionResult<Person>> GetUser(int roomid, string personname) {
+            var room = await _context.Rooms.Include(r => r.Participants).FirstOrDefaultAsync(r => r.RoomId == roomid);
+            if (room==null)
+            {
+                return NotFound(roomid);
+            }
+            var person = room.Participants.FirstOrDefault(e => e.PersonName == personname);
+            if (person == null)
+            {
+                // Create a new Person object with the provided person's name
+                Person newPerson = new Person { PersonName = personname, RoomId = roomid, Room = room };
+
+                // Add the new Person to the Room's Participants collection
+                room.Participants.Add(newPerson);
+
+                // Save changes to the database
+                await _context.SaveChangesAsync();
+
+                // Return the newly created Person object
+                return CreatedAtAction("GetUser", new { id = newPerson.PersonId }, newPerson);
+            }
+            
+
+            return Ok(person);
+        }
 
         // GET: api/Rooms
         [HttpGet]
@@ -41,45 +66,11 @@ namespace server.Controllers
             return await _context.Rooms.Include(p => p.Participants).ThenInclude(pa => pa.Person_AvailableTimes).ToListAsync();
         }
 
-        [HttpGet("hastime/{roomId}/{dateString}")]
-        public async Task<ActionResult<AvailableTime>> HasAvailableTime(int roomId, string dateString)
-        {
-            var room_time = await _context.Rooms
-                                        .Include(t => t.AvailableTimes)
-                                        .FirstOrDefaultAsync(t => t.RoomId == roomId);
-
-            if (room_time == null)
-            {
-                return NotFound();
-            }
-
-            // Decode the URL encoded date string
-            string decodedDateString = HttpUtility.UrlDecode(dateString);
-            string format = "dd/MM/yyyy HH:mm";
-
-            DateTime newDate;
-            try
-            {
-                newDate = DateTime.ParseExact(decodedDateString, format, CultureInfo.InvariantCulture);
-            }
-            catch (FormatException)
-            {
-                return BadRequest("Invalid date format (use dd/mm/yyyy HH:mm)");
-            }
-
-            var times = room_time.AvailableTimes
-                                 .Where(t => t.Time == newDate)
-                                 .Select(t => new { t.Time, t.RoomId });
-
-            return Ok(times);
-        }
-
         [HttpPost("/addTime/{roomId}/{personId}/{dateString}")]
         public async Task<ActionResult<Room>> PostRoom(int roomId, int personId, string dateString)
         {
 
             var room = await _context.Rooms
-                            .Include(t => t.AvailableTimes)
                             .FirstOrDefaultAsync(t => t.RoomId == roomId);
 
             if (room == null)
@@ -102,8 +93,7 @@ namespace server.Controllers
             }
 
 
-            var times = room.AvailableTimes
-                                 .FirstOrDefault(t => t.Time == newDate && t.RoomId == roomId);
+            var times = await _context.AvailableTime.FirstOrDefaultAsync(t => t.Time == newDate && t.RoomId == roomId);
 
 
             var person = await _context.Participants.FindAsync(personId);
@@ -140,12 +130,11 @@ namespace server.Controllers
             // case where time exists but not for current user
             else
             {
-
-                var userTime = await _context.AvailableParticipants.FirstOrDefaultAsync(e => e.PersonId == personId && e.AvailableTimeId == times.AvailableTimeId);
+                var userTime = await _context.AvailableParticipants.FirstOrDefaultAsync(e => e.PersonId == personId && e.AvailableTime.RoomId == roomId && e.AvailableTime.Time == newDate);
                 if (userTime == null)
                 {
 
-                    AvailableTime existingTime = await _context.AvailableTime.FirstOrDefaultAsync(e => e.Time == newDate);
+                    AvailableTime existingTime = await _context.AvailableTime.FirstOrDefaultAsync(e => e.Time == newDate && e.RoomId == roomId);
                     
                     if (existingTime != null)
                     {
@@ -284,37 +273,6 @@ namespace server.Controllers
             }
 
             return timeCounts.Select(kvp => new { Time = kvp.Key, Count = kvp.Value }).ToList();
-        }
-
-        // PUT: api/Rooms/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutRoom(int id, Room room)
-        {
-            if (id != room.RoomId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(room).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!RoomExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
         }
 
         // POST: api/Rooms

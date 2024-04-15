@@ -1,6 +1,13 @@
 import clsx from "clsx";
+import { add } from "date-fns";
 
 export const Cell = (props) => {
+  const day =
+    props.startWeek && props.dayIndex
+      ? add(props.startWeek, { days: props.dayIndex })
+      : props.startWeek;
+
+  console.log(day);
   return (
     <div
       onClick={props.onClick}
@@ -15,7 +22,8 @@ export const Cell = (props) => {
         props.dayOfTheMonth
       )}
     >
-      {props.text}
+      <h1>{props.text} </h1>
+      <h2 className="font-bold">{day && day.getDate()}</h2>
     </div>
   );
 };

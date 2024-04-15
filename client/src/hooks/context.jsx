@@ -5,10 +5,12 @@ export const stateContext = createContext();
 
 const getFreshContext = () => {
   return {
-    personId: 3,
-    personName: "",
-    roomId: 1,
-    roomName: "",
+    personId: localStorage.getItem("personId"),
+    personName: localStorage.getItem("personName"),
+    roomId: localStorage.getItem("roomId"),
+    roomName: localStorage.getItem("roomName"),
+    // the following are subject to change based on the actions of other users
+    // so should not be stored in localStorage
     numParticipants: -1, // number of participants in a room.
     selectedDates: new Map(), // current user selected dates.
     userDates: new Map(), // loaded dates from all users so we can display counts (date => count).
@@ -21,14 +23,23 @@ export const ContextProvider = ({ children }) => {
   const [context, setContext] = useState(getFreshContext());
 
   const setRoom = (pId, pName, rId, rName) => {
+    localStorage.setItem("roomId", rId);
+    localStorage.setItem("personId", pId);
+    localStorage.setItem("roomName", rName);
+    localStorage.setItem("personName", pName);
     setContext((prev) => ({
       ...prev,
-      personId: pId,
-      personName: pName,
-      roomId: rId,
-      roomName: rName,
-      numParticipants: 1,
+      personId: localStorage.getItem("personId"),
+      personName: localStorage.getItem("personName"),
+      roomId: localStorage.getItem("roomId"),
+      roomName: localStorage.getItem("roomName"),
+      numParticipants: -1, // number of participants in a room.
+      selectedDates: new Map(), // current user selected dates.
+      userDates: new Map(), // loaded dates from all users so we can display counts (date => count).
+      postDates: new Array(), // dates which will be called to addTime POST method (adding/creating Person_AvailableTime entry)
+      deleteDates: new Array(),
     }));
+    console.log(localStorage);
   };
 
   const getNumParticipants = () => {
@@ -212,6 +223,11 @@ export const ContextProvider = ({ children }) => {
         }/${encodeURIComponent(e)}`
       );
     });
+
+    // reset dates to be adding and deleting
+    setContext((prev) => {
+      return { ...prev, postDates: new Array(), deleteDates: new Array() };
+    });
   };
 
   // locally store dates
@@ -262,6 +278,15 @@ export const ContextProvider = ({ children }) => {
     }
     return false;
   };
+
+  // TESTING
+  useEffect(() => {
+    // localStorage.set('roomId', context.roomId);
+    // localStorage.set('personId', context.personId);
+    // localStorage.set('roomName', context.roomName);
+    // localStorage.set('personName', context.personName);
+    console.log("room stuff changed!!!! --> ", localStorage);
+  }, [context.roomId, context.personId, context.roomName, context.personName]);
 
   const contextValue = {
     context,
