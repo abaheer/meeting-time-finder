@@ -66,39 +66,6 @@ namespace server.Controllers
             return await _context.Rooms.Include(p => p.Participants).ThenInclude(pa => pa.Person_AvailableTimes).ToListAsync();
         }
 
-        [HttpGet("hastime/{roomId}/{dateString}")]
-        public async Task<ActionResult<AvailableTime>> HasAvailableTime(int roomId, string dateString)
-        {
-            var room_time = await _context.Rooms
-                                        .Include(t => t.AvailableTimes)
-                                        .FirstOrDefaultAsync(t => t.RoomId == roomId);
-
-            if (room_time == null)
-            {
-                return NotFound();
-            }
-
-            // Decode the URL encoded date string
-            string decodedDateString = HttpUtility.UrlDecode(dateString);
-            string format = "dd/MM/yyyy HH:mm";
-
-            DateTime newDate;
-            try
-            {
-                newDate = DateTime.ParseExact(decodedDateString, format, CultureInfo.InvariantCulture);
-            }
-            catch (FormatException)
-            {
-                return BadRequest("Invalid date format (use dd/mm/yyyy HH:mm)");
-            }
-
-            var times = room_time.AvailableTimes
-                                 .Where(t => t.Time == newDate)
-                                 .Select(t => new { t.Time, t.RoomId });
-
-            return Ok(times);
-        }
-
         [HttpPost("/addTime/{roomId}/{personId}/{dateString}")]
         public async Task<ActionResult<Room>> PostRoom(int roomId, int personId, string dateString)
         {
@@ -306,37 +273,6 @@ namespace server.Controllers
             }
 
             return timeCounts.Select(kvp => new { Time = kvp.Key, Count = kvp.Value }).ToList();
-        }
-
-        // PUT: api/Rooms/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutRoom(int id, Room room)
-        {
-            if (id != room.RoomId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(room).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!RoomExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
         }
 
         // POST: api/Rooms
