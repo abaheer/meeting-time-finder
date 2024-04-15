@@ -1,6 +1,7 @@
 # Meeting Time Finder
 - A web application designed to simplify the process of scheduling meetings and managing available time slots. It allows users to create rooms, invite participants, and select available time slots for meetings.
 
+![](preview.jpg)
 # Features
 ### Room Creation
 - Users can create rooms for specific meetings or events.
@@ -10,7 +11,7 @@
 - Participants can view and manage their available time slots for the selected room.
 - Participants can view how many other participants are available at a given time slot.
 ### Technologies Used
-- Frontend: The frontend of the application is built using React.js, providing a responsive and interactive user interface.
+- Frontend: The frontend of the application is built using React.js and tailwindcss, providing a responsive and interactive user interface.
 - Backend: The backend is developed using ASP.NET Core, providing robust APIs for managing rooms, participants, and time slots.
 - Database: The application uses a relational database (e.g., SQL Server) to store room and participant data.
   
