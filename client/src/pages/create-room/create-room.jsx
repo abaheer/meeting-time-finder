@@ -3,17 +3,44 @@ import { useForm } from "../../hooks/useForm";
 import axios from "axios";
 import { stateContext } from "../../hooks/context";
 import { useContext } from "react";
+import Slider from "rc-slider";
+import Tooltip from "rc-tooltip";
+import "rc-slider/assets/index.css";
+
+const { Handle } = Slider;
+
+const wrapperStyle = { width: 400, margin: 50 };
+
+const handleRender = (renderProps) => {
+  const { value, dragging, index, ...restProps } = renderProps.props;
+  return <Handle value={value} {...restProps} />;
+};
 
 const getFreshModel = () => ({
   roomname: "",
   username: "",
   password: "",
+  interval: 60,
+  times: [9, 17],
 });
+
+const formatTime = (value) => {
+  const hour = Math.floor(value);
+  const minutes = (value - hour) * 60;
+  const formattedMinutes = Math.round(minutes).toString().padStart(2, "0");
+  return `${hour}:${formattedMinutes}`;
+};
 
 export const CreateRoom = () => {
   const navigate = useNavigate();
-  const { values, setValues, errors, setErrors, handleInputChange } =
-    useForm(getFreshModel);
+  const {
+    values,
+    setValues,
+    errors,
+    setErrors,
+    handleInputChange,
+    handleSliderChange,
+  } = useForm(getFreshModel);
 
   const { setRoom } = useContext(stateContext);
 
@@ -25,9 +52,9 @@ export const CreateRoom = () => {
       .post(`https://localhost:7118/api/Rooms/${values.username}/`, {
         roomName: `${values.roomname}`,
         password: `${values.password}`,
-        meetingStart: 9,
-        meetingEnd: 17,
-        timeInterval: 60,
+        meetingStart: times[0],
+        meetingEnd: times[1],
+        timeInterval: interval,
       })
       .then(function (response) {
         console.log(response);
@@ -84,6 +111,48 @@ export const CreateRoom = () => {
               value={values.roomname}
               onChange={handleInputChange}
             />
+          </div>
+          <div className="mb-4">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="interval"
+            >
+              Time Interval
+            </label>
+            <select
+              id="interval"
+              name="interval"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+              onChange={handleInputChange}
+            >
+              {/* <option defaultValue={60}>Select an Interval</option> */}
+              <option value={60}>60 Minutes</option>
+              <option value={30}>30 Minutes</option>
+              <option value={15}>15 Minutes</option>
+              <option value={10}>10 Minutes</option>
+            </select>
+          </div>
+          <div className="mb-4">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="times"
+            >
+              Meeting Times
+            </label>
+            <Slider
+              range
+              allowCross={false}
+              step={values.interval / 60}
+              name="times"
+              min={0}
+              max={24}
+              defaultValue={[9, 17]}
+              handle={handleRender}
+              onChange={(newValue) => handleSliderChange("times", newValue)}
+            />
+            <p>
+              {formatTime(values.times[0])} to {formatTime(values.times[1])}
+            </p>
           </div>
           {/* <div className="mb-6">
             <label

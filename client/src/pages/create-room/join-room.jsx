@@ -78,7 +78,7 @@ export const JoinRoom = () => {
               type="number"
               placeholder="12345"
               value={values.roomid}
-              onChange={handleInputChange}
+              onChange={(newValue) => handleSliderChange("times", newValue)}
             />
           </div>
           {/* <div className="mb-6">
