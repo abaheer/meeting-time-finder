@@ -52,9 +52,9 @@ export const CreateRoom = () => {
       .post(`https://localhost:7118/api/Rooms/${values.username}/`, {
         roomName: `${values.roomname}`,
         password: `${values.password}`,
-        meetingStart: times[0],
-        meetingEnd: times[1],
-        timeInterval: interval,
+        meetingStart: `${values.times[0]}`,
+        meetingEnd: `${values.times[1]}`,
+        timeInterval: `${values.interval}`,
       })
       .then(function (response) {
         console.log(response);
