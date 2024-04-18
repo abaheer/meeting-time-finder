@@ -7,7 +7,6 @@ export const Cell = (props) => {
       ? add(props.startWeek, { days: props.dayIndex })
       : props.startWeek;
 
-  console.log(day);
   return (
     <div
       onClick={props.onClick}
