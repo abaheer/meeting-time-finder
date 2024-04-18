@@ -62,7 +62,10 @@ export const CreateRoom = () => {
           response.data.participants[0].personId,
           response.data.participants[0].personName,
           response.data.roomId,
-          response.data.roomName
+          response.data.roomName,
+          response.data.room.meetingStart,
+          response.data.room.meetingEnd,
+          response.data.room.timeInterval
         );
         navigate("/room");
       })
@@ -142,7 +145,8 @@ export const CreateRoom = () => {
             <Slider
               range
               allowCross={false}
-              step={values.interval / 60}
+              step={60} // lets do hour steps but allow the user to change the interval as desired
+              // step={values.interval / 60}
               name="times"
               min={0}
               max={24}

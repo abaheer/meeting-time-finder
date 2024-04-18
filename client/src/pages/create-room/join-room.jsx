@@ -31,7 +31,10 @@ export const JoinRoom = () => {
           response.data.personId,
           response.data.personName,
           response.data.room.roomId,
-          response.data.room.roomName
+          response.data.room.roomName,
+          response.data.room.meetingStart,
+          response.data.room.meetingEnd,
+          response.data.room.timeInterval
         );
         navigate("/room");
       })
@@ -78,7 +81,7 @@ export const JoinRoom = () => {
               type="number"
               placeholder="12345"
               value={values.roomid}
-              onChange={(newValue) => handleSliderChange("times", newValue)}
+              onChange={handleInputChange}
             />
           </div>
           {/* <div className="mb-6">

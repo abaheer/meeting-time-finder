@@ -9,6 +9,9 @@ const getFreshContext = () => {
     personName: localStorage.getItem("personName"),
     roomId: localStorage.getItem("roomId"),
     roomName: localStorage.getItem("roomName"),
+    startTime: localStorage.getItem("startTime"),
+    endTime: localStorage.getItem("endTime"),
+    interval: localStorage.getItem("interval"),
     // the following are subject to change based on the actions of other users
     // so should not be stored in localStorage
     numParticipants: -1, // number of participants in a room.
@@ -22,17 +25,23 @@ const getFreshContext = () => {
 export const ContextProvider = ({ children }) => {
   const [context, setContext] = useState(getFreshContext());
 
-  const setRoom = (pId, pName, rId, rName) => {
+  const setRoom = (pId, pName, rId, rName, rStart, rEnd, rInterval) => {
     localStorage.setItem("roomId", rId);
     localStorage.setItem("personId", pId);
     localStorage.setItem("roomName", rName);
     localStorage.setItem("personName", pName);
+    localStorage.setItem("startTime", rStart);
+    localStorage.setItem("endTime", rEnd);
+    localStorage.setItem("interval", rInterval);
     setContext((prev) => ({
       ...prev,
       personId: localStorage.getItem("personId"),
       personName: localStorage.getItem("personName"),
       roomId: localStorage.getItem("roomId"),
       roomName: localStorage.getItem("roomName"),
+      startTime: localStorage.getItem("startTime"),
+      endTime: localStorage.getItem("endTime"),
+      interval: localStorage.getItem("interval"),
       numParticipants: -1, // number of participants in a room.
       selectedDates: new Map(), // current user selected dates.
       userDates: new Map(), // loaded dates from all users so we can display counts (date => count).
