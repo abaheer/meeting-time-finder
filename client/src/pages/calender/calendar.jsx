@@ -104,7 +104,7 @@ export const Calendar = (props) => {
                   key={day}
                   className="col-span-1 grid grid-rows-2 h-10 text-l"
                   text={day}
-                  startWeek={props.value}
+                  startWeek={startWeek}
                   dayIndex={index}
                 />
               );
