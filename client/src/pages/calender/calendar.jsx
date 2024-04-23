@@ -19,8 +19,14 @@ import { Link } from "react-router-dom";
 
 const daysOfTheWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 export const Calendar = (props) => {
-  const { getNumParticipants, loadDates, storeUserDates, addTimes, context } =
-    useContext(stateContext);
+  const {
+    getNumParticipants,
+    loadDates,
+    storeUserDates,
+    addTimes,
+    context,
+    formatTime,
+  } = useContext(stateContext);
 
   useEffect(() => {
     storeUserDates();
@@ -104,14 +110,35 @@ export const Calendar = (props) => {
                   key={day}
                   className="col-span-1 grid grid-rows-2 h-10 text-l"
                   text={day}
-                  startWeek={props.value}
+                  startWeek={startWeek}
                   dayIndex={index}
                 />
               );
             })}
 
             <div className="text-l">
-              <Cell className="col-span-1 h-12" text={"9am"} />
+              {[
+                ...Array(
+                  (context.endTime - context.startTime) *
+                    (60 / context.interval) +
+                    1
+                ),
+              ].map((_, index) => {
+                // console.log(index);
+                const time =
+                  Number(context.startTime) + (index * context.interval) / 60;
+                const amOrPm = time >= 12 ? "pm" : "am";
+
+                const twelveHourTime = time % 12 ? time % 12 : 12;
+                return (
+                  <Cell
+                    key={index}
+                    className="col-span-1 h-12"
+                    text={formatTime(twelveHourTime) + amOrPm}
+                  />
+                );
+              })}
+              {/* <Cell className="col-span-1 h-12" text={"9am"} />
               <Cell className="col-span-1 h-12" text={"10am"} />
               <Cell className="col-span-1 h-12" text={"11am"} />
               <Cell className="col-span-1 h-12" text={"12pm"} />
@@ -119,9 +146,8 @@ export const Calendar = (props) => {
               <Cell className="col-span-1 h-12" text={"2pm"} />
               <Cell className="col-span-1 h-12" text={"3pm"} />
               <Cell className="col-span-1 h-12" text={"4pm"} />
-              <Cell className="col-span-1 h-12" text={"5pm"} />
+              <Cell className="col-span-1 h-12" text={"5pm"} /> */}
             </div>
-
             {numWeekDays.map((_, index) => {
               return (
                 <TimeSlots

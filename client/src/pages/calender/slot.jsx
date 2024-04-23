@@ -12,13 +12,14 @@ export const Slot = ({ date }) => {
     incrementUserDate,
   } = useContext(stateContext);
   const [text, setText] = useState(0);
-
+  // console.log(date);
   useEffect(() => {
     // Update text when isSlotAvailable changes
     setText(peopleAtTime(date));
   }, [peopleAtTime]); // Run the effect whenever date or isSlotAvailable changes
 
   const handleOnClick = async () => {
+    console.log(date);
     await selectDate(date);
   };
 

@@ -31,7 +31,10 @@ export const JoinRoom = () => {
           response.data.personId,
           response.data.personName,
           response.data.room.roomId,
-          response.data.room.roomName
+          response.data.room.roomName,
+          response.data.room.meetingStart,
+          response.data.room.meetingEnd,
+          response.data.room.timeInterval
         );
         navigate("/room");
       })

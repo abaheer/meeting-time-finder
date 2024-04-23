@@ -10,6 +10,15 @@ export const useForm = (getFreshModelObject) => {
       ...values,
       [name]: value,
     });
+    console.log(values);
+  };
+
+  const handleSliderChange = (name, value) => {
+    setValues({
+      ...values,
+      [name]: value,
+    });
+    console.log({ values });
   };
 
   return {
@@ -18,5 +27,6 @@ export const useForm = (getFreshModelObject) => {
     errors,
     setErrors,
     handleInputChange,
+    handleSliderChange,
   };
 };
