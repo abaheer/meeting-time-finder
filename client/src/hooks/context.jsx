@@ -298,6 +298,15 @@ export const ContextProvider = ({ children }) => {
       date.getMinutes().toString().padStart(2, "0")
     );
   };
+
+  // format time given as float (e.g. 11.5) to HH:MM format (e.g. 11:30)
+  const formatTime = (value) => {
+    const hour = Math.floor(value);
+    const minutes = (value - hour) * 60;
+    const formattedMinutes = Math.round(minutes).toString().padStart(2, "0");
+    return `${hour}:${formattedMinutes}`;
+  };
+
   // TESTING
   useEffect(() => {
     // localStorage.set('roomId', context.roomId);
@@ -319,6 +328,7 @@ export const ContextProvider = ({ children }) => {
     isSelected,
     incrementUserDate,
     addTimes,
+    formatTime,
   };
 
   return (

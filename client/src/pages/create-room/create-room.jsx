@@ -24,13 +24,6 @@ const getFreshModel = () => ({
   times: [9, 17],
 });
 
-const formatTime = (value) => {
-  const hour = Math.floor(value);
-  const minutes = (value - hour) * 60;
-  const formattedMinutes = Math.round(minutes).toString().padStart(2, "0");
-  return `${hour}:${formattedMinutes}`;
-};
-
 export const CreateRoom = () => {
   const navigate = useNavigate();
   const {
@@ -42,7 +35,7 @@ export const CreateRoom = () => {
     handleSliderChange,
   } = useForm(getFreshModel);
 
-  const { setRoom } = useContext(stateContext);
+  const { setRoom, formatTime } = useContext(stateContext);
 
   const NewRoom = (e) => {
     e.preventDefault();

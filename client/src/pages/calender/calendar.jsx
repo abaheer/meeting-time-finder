@@ -19,8 +19,14 @@ import { Link } from "react-router-dom";
 
 const daysOfTheWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 export const Calendar = (props) => {
-  const { getNumParticipants, loadDates, storeUserDates, addTimes, context } =
-    useContext(stateContext);
+  const {
+    getNumParticipants,
+    loadDates,
+    storeUserDates,
+    addTimes,
+    context,
+    formatTime,
+  } = useContext(stateContext);
 
   useEffect(() => {
     storeUserDates();
@@ -128,7 +134,7 @@ export const Calendar = (props) => {
                   <Cell
                     key={index}
                     className="col-span-1 h-12"
-                    text={twelveHourTime + amOrPm}
+                    text={formatTime(twelveHourTime) + amOrPm}
                   />
                 );
               })}
