@@ -111,22 +111,27 @@ export const Calendar = (props) => {
             })}
 
             <div className="text-l">
-              {[...Array(context.endTime - context.startTime + 1)].map(
-                (_, index) => {
-                  console.log(context.startTime);
-                  const time = Number(context.startTime) + index;
-                  const amOrPm = time >= 12 ? "pm" : "am";
+              {[
+                ...Array(
+                  (context.endTime - context.startTime) *
+                    (60 / context.interval) +
+                    1
+                ),
+              ].map((_, index) => {
+                // console.log(index);
+                const time =
+                  Number(context.startTime) + (index * context.interval) / 60;
+                const amOrPm = time >= 12 ? "pm" : "am";
 
-                  const twelveHourTime = time % 12 ? time % 12 : 12;
-
-                  return (
-                    <Cell
-                      className="col-span-1 h-12"
-                      text={twelveHourTime + amOrPm}
-                    />
-                  );
-                }
-              )}
+                const twelveHourTime = time % 12 ? time % 12 : 12;
+                return (
+                  <Cell
+                    key={index}
+                    className="col-span-1 h-12"
+                    text={twelveHourTime + amOrPm}
+                  />
+                );
+              })}
               {/* <Cell className="col-span-1 h-12" text={"9am"} />
               <Cell className="col-span-1 h-12" text={"10am"} />
               <Cell className="col-span-1 h-12" text={"11am"} />
