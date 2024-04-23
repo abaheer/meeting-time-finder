@@ -8,8 +8,8 @@ export const TimeSlots = (props) => {
   const { context, userDates } = useContext(stateContext);
 
   const hourIntervals = eachHourOfInterval({
-    start: new Date(2014, 9, 6, 9),
-    end: new Date(2014, 9, 6, 17),
+    start: new Date(2014, 9, 6, context.startTime),
+    end: new Date(2014, 9, 6, context.endTime),
   });
 
   return (

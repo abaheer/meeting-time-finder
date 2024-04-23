@@ -63,9 +63,9 @@ export const CreateRoom = () => {
           response.data.participants[0].personName,
           response.data.roomId,
           response.data.roomName,
-          response.data.room.meetingStart,
-          response.data.room.meetingEnd,
-          response.data.room.timeInterval
+          response.data.meetingStart,
+          response.data.meetingEnd,
+          response.data.timeInterval
         );
         navigate("/room");
       })
@@ -145,7 +145,7 @@ export const CreateRoom = () => {
             <Slider
               range
               allowCross={false}
-              step={60} // lets do hour steps but allow the user to change the interval as desired
+              step={1} // lets do hour steps but allow the user to change the interval as desired
               // step={values.interval / 60}
               name="times"
               min={0}
@@ -157,6 +157,22 @@ export const CreateRoom = () => {
             <p>
               {formatTime(values.times[0])} to {formatTime(values.times[1])}
             </p>
+            <input
+              className="shadow appearance-none border rounded w-1/2 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              name="start"
+              type="text"
+              placeholder="9"
+              value={values.times[0]}
+              onChange={handleInputChange}
+            />
+            <input
+              className="shadow appearance-none border rounded w-1/2 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              name="start"
+              type="text"
+              placeholder="17"
+              value={values.times[1]}
+              onChange={handleInputChange}
+            />
           </div>
           {/* <div className="mb-6">
             <label

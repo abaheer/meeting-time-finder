@@ -111,7 +111,23 @@ export const Calendar = (props) => {
             })}
 
             <div className="text-l">
-              <Cell className="col-span-1 h-12" text={"9am"} />
+              {[...Array(context.endTime - context.startTime + 1)].map(
+                (_, index) => {
+                  console.log(context.startTime);
+                  const time = Number(context.startTime) + index;
+                  const amOrPm = time >= 12 ? "pm" : "am";
+
+                  const twelveHourTime = time % 12 ? time % 12 : 12;
+
+                  return (
+                    <Cell
+                      className="col-span-1 h-12"
+                      text={twelveHourTime + amOrPm}
+                    />
+                  );
+                }
+              )}
+              {/* <Cell className="col-span-1 h-12" text={"9am"} />
               <Cell className="col-span-1 h-12" text={"10am"} />
               <Cell className="col-span-1 h-12" text={"11am"} />
               <Cell className="col-span-1 h-12" text={"12pm"} />
@@ -119,9 +135,8 @@ export const Calendar = (props) => {
               <Cell className="col-span-1 h-12" text={"2pm"} />
               <Cell className="col-span-1 h-12" text={"3pm"} />
               <Cell className="col-span-1 h-12" text={"4pm"} />
-              <Cell className="col-span-1 h-12" text={"5pm"} />
+              <Cell className="col-span-1 h-12" text={"5pm"} /> */}
             </div>
-
             {numWeekDays.map((_, index) => {
               return (
                 <TimeSlots
