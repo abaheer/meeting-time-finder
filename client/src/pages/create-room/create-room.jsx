@@ -68,7 +68,7 @@ export const CreateRoom = () => {
   };
 
   return (
-    <div className="w-screen h-screen bg-blue-300 flex items-center justify-center">
+    <div className="w-screen h-screen flex items-center justify-center">
       <div className="w-full max-w-xs justify-center">
         <form
           noValidate

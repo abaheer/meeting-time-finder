@@ -73,18 +73,17 @@ export const Calendar = (props) => {
   };
 
   return (
-    <div className="w-screen h-screen">
-      {/* <nav className="flex justify-center bg-sky-900 text-white font-medium p-4 text-2xl">
-        <Link to="/join">
-          <h1 className="ml-2 text-right float-right">Join Room</h1>
-        </Link>
-        <h1 className="ml-2 mr-2"> | </h1>
+    <div className="h-screen flex flex-col">
+      <nav className="text-white font-medium p-2 text-2xl w-screen">
         <Link to="/">
-          <h1 className="text-right float-right">Create Room</h1>
+          <h1 className="ml-10 text-right float-left">whenwefree</h1>
         </Link>
-      </nav> */}
+        <Link to="/">
+          <h1 className="mr-10 text-right float-right">{`<`}</h1>
+        </Link>
+      </nav>
 
-      <div className="pt-20 flex justify-center items-center">
+      <div className="pt-10 flex justify-center items-center">
         <div className="w-[600px] bg-white shadow-sm border-none">
           <div
             key="uhhh"

@@ -16,10 +16,17 @@ export const Index = () => {
         {/* <h2 className="text-xl text-white">Join or create a room to begin!</h2> */}
         <button
           type="button"
-          onClick={handleClick}
+          onClick={() => navigate("/create")}
           className="transition duration-200 mt-6 pl-8 pr-8 mb-5 rounded py-1 px-3 text-white font-bold bg-blue-600 hover:bg-blue-800"
         >
-          Go
+          Create
+        </button>
+        <button
+          type="button"
+          onClick={() => navigate("/join")}
+          className="transition duration-200 mt-6 pl-8 ml-4 pr-8 mb-5 rounded py-1 px-3 text-white font-bold bg-blue-600 hover:bg-blue-800"
+        >
+          Join
         </button>
       </div>
     </section>
