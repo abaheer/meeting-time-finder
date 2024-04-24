@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { CreateRoom } from "./pages/create-room/create-room";
 import { JoinRoom } from "./pages/create-room/join-room";
 import { ContextProvider } from "./hooks/context";
+import { Index } from "./pages/index";
 
 function App() {
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -20,11 +21,12 @@ function App() {
       </h1> */}
       <Router>
         <Routes>
+          <Route path="/" element={<Index />} />
           <Route
             path="/room"
             element={<Calendar value={currentDate} onChange={setCurrentDate} />}
           />
-          <Route path="/" element={<CreateRoom />} />
+          <Route path="/create" element={<CreateRoom />} />
           <Route path="/join" element={<JoinRoom />} />
         </Routes>
       </Router>

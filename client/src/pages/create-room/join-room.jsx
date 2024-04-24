@@ -108,7 +108,7 @@ export const JoinRoom = () => {
               Join Room
             </button>
           </div>
-          <Link to="/" className="mt-2 underline flex justify-center">
+          <Link to="/create" className="mt-2 underline flex justify-center">
             Or Create a room
           </Link>
         </form>
