@@ -68,13 +68,13 @@ export const CreateRoom = () => {
   };
 
   return (
-    <div className="flex items-center justify-center mt-10">
+    <div className="w-screen h-screen bg-blue-300 flex items-center justify-center">
       <div className="w-full max-w-xs justify-center">
         <form
           noValidate
           autoComplete="off"
           onSubmit={NewRoom}
-          className="bg-white border-4 border-black rounded-md px-8 pt-6 pb-8 mb-4"
+          className="bg-white rounded-xl px-8 pt-6 pb-8 mb-4 0 shadow-xl"
         >
           <div className="mb-4">
             <label
@@ -84,7 +84,7 @@ export const CreateRoom = () => {
               Username
             </label>
             <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               name="username"
               type="text"
               placeholder="Username"
@@ -100,7 +100,7 @@ export const CreateRoom = () => {
               Room Name
             </label>
             <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               name="roomname"
               type="text"
               placeholder="Project Meeting Schedule"
@@ -151,7 +151,7 @@ export const CreateRoom = () => {
               {formatTime(values.times[0])} to {formatTime(values.times[1])}
             </p>
             <input
-              className="shadow appearance-none border rounded w-1/2 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="appearance-none border rounded w-1/2 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               name="start"
               type="text"
               placeholder="9"
@@ -159,7 +159,7 @@ export const CreateRoom = () => {
               onChange={handleInputChange}
             />
             <input
-              className="shadow appearance-none border rounded w-1/2 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="appearance-none border rounded w-1/2 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               name="start"
               type="text"
               placeholder="17"
@@ -175,7 +175,7 @@ export const CreateRoom = () => {
               Room Password (optional)
             </label>
             <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+              className="appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
               name="password"
               type="password"
               placeholder="******************"
@@ -191,7 +191,10 @@ export const CreateRoom = () => {
               Create Room
             </button>
           </div>
-          <Link to="/join" className="flex justify-center mt-2 underline">
+          <Link
+            to="/join"
+            className="flex justify-center mt-2 hover:underline text-blue-600 font-semibold"
+          >
             Or Join an existing room
           </Link>
         </form>

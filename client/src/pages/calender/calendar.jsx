@@ -73,8 +73,8 @@ export const Calendar = (props) => {
   };
 
   return (
-    <>
-      <nav className="flex justify-center bg-sky-900 text-white font-medium p-4 text-2xl">
+    <div className="w-screen h-screen">
+      {/* <nav className="flex justify-center bg-sky-900 text-white font-medium p-4 text-2xl">
         <Link to="/join">
           <h1 className="ml-2 text-right float-right">Join Room</h1>
         </Link>
@@ -82,9 +82,9 @@ export const Calendar = (props) => {
         <Link to="/">
           <h1 className="text-right float-right">Create Room</h1>
         </Link>
-      </nav>
+      </nav> */}
 
-      <div className="mt-5 flex justify-center items-center">
+      <div className="pt-20 flex justify-center items-center">
         <div className="w-[600px] bg-white shadow-sm border-none">
           <div
             key="uhhh"
@@ -163,7 +163,7 @@ export const Calendar = (props) => {
             <div className="col-span-8 flex justify-center">
               <button
                 type="submit"
-                className="transition duration-200 mt-2 mb-5 border-white border-2 rounded py-1 px-3 text-white font-bold bg-blue-500 hover:bg-blue-800"
+                className="transition duration-200 mt-2 mb-5 border-white border-2 rounded py-1 px-3 text-white font-bold bg-blue-600 hover:bg-blue-800"
                 onClick={addTimes}
               >
                 Save
@@ -178,6 +178,6 @@ export const Calendar = (props) => {
         <h1>room name = {context.roomName}</h1>
         <h1>room id = {context.roomId}</h1>
       </div>
-    </>
+    </div>
   );
 };

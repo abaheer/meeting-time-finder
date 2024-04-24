@@ -44,13 +44,13 @@ export const JoinRoom = () => {
   };
 
   return (
-    <div className="flex items-center justify-center mt-10">
+    <div className="w-screen h-screen bg-blue-300 flex items-center justify-center">
       <div className="w-full max-w-xs justify-center">
         <form
           noValidate
           autoComplete="off"
           onSubmit={NewRoom}
-          className="bg-white border-black border-4 rounded-md px-8 pt-6 pb-8 mb-4"
+          className="bg-white rounded-xl px-8 pt-6 pb-8 mb-4 0 shadow-xl"
         >
           <div className="mb-4">
             <label
@@ -60,7 +60,7 @@ export const JoinRoom = () => {
               Username
             </label>
             <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               name="username"
               type="text"
               placeholder="Username"
@@ -76,7 +76,7 @@ export const JoinRoom = () => {
               Room Code
             </label>
             <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               name="roomid"
               type="number"
               placeholder="12345"
@@ -108,7 +108,10 @@ export const JoinRoom = () => {
               Join Room
             </button>
           </div>
-          <Link to="/create" className="mt-2 underline flex justify-center">
+          <Link
+            to="/create"
+            className="mt-2 hover:underline flex justify-center text-blue-600 font-semibold"
+          >
             Or Create a room
           </Link>
         </form>
