@@ -29,5 +29,5 @@ To run meeting-time-finder application locally, follow these steps:
 * Access the application in your web browser.
 
 ### Future Scope
-- Add functionality to update start/end and interval times.
-- Add interface to allow particiapnts to see who is available at a given time.
+- Visual Update
+- Optimize backend/server calls
