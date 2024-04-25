@@ -120,23 +120,17 @@ export const Calendar = (props) => {
 
       <div className="flex items-center justify-center mt-4">
         <select
+          value={context.personName}
           id="interval"
           name="interval"
           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[600px] p-2.5"
           onChange={handleInputChange}
         >
-          <option defaultValue={context.personName}>
-            {context.personName}
-          </option>
-          {context.userDetails
-            .filter((e) => {
-              return e !== context.personName;
-            })
-            .map((user) => (
-              <option key={user} value={user}>
-                {user}
-              </option>
-            ))}
+          {context.userDetails.map((user) => (
+            <option key={user} value={user}>
+              {user}
+            </option>
+          ))}
         </select>
       </div>
 
@@ -230,7 +224,6 @@ export const Calendar = (props) => {
       </div>
       <div className="flex-col text-center justify-center mt-5">
         {" "}
-        <h1>person name = {context.personName}</h1>
         <h1>room name = {context.roomName}</h1>
         <h1>room id = {context.roomId}</h1>
       </div>
