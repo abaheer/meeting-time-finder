@@ -9,7 +9,7 @@ export const Index = () => {
 
   return (
     <section className="flex items-center justify-center w-screen h-screen bg-blue-300">
-      <div>
+      <div className="text-center ">
         <h1 className="text-6xl font-bold text-white xl:text-7xl">
           set a meeting in seconds ...
         </h1>
