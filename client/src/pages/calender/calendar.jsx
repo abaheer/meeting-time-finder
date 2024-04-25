@@ -15,7 +15,8 @@ import {
   eachDayOfInterval,
   isSameWeek,
 } from "date-fns";
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import axios from "axios";
 
 const daysOfTheWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 export const Calendar = (props) => {
@@ -26,7 +27,12 @@ export const Calendar = (props) => {
     addTimes,
     context,
     formatTime,
+    setRoom,
   } = useContext(stateContext);
+
+  const [render, setRender] = useState(0);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     storeUserDates();
@@ -72,6 +78,35 @@ export const Calendar = (props) => {
     props.onChange((prev) => set(prev, { date: dayOfTheMonth }));
   };
 
+  const handleInputChange = (e) => {
+    console.log(context.userDetails);
+    console.log("AAAAAAAA", e.target.value);
+
+    axios
+      .post(
+        `https://localhost:7118/api/Rooms/Person/${context.roomId}/${e.target.value}`
+      ) //return person object
+      .then(function (response) {
+        console.log(response);
+        setRoom(
+          response.data.personId,
+          response.data.personName,
+          response.data.room.roomId,
+          response.data.room.roomName,
+          response.data.room.meetingStart,
+          response.data.room.meetingEnd,
+          response.data.room.timeInterval
+        );
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    // storeUserDates();
+    // getNumParticipants();
+    // loadDates();
+    location.reload();
+  };
+
   return (
     <div className="h-screen flex flex-col">
       <nav className="text-white font-medium p-2 text-2xl w-screen">
@@ -83,7 +118,29 @@ export const Calendar = (props) => {
         </Link>
       </nav>
 
-      <div className="pt-10 flex justify-center items-center">
+      <div className="flex items-center justify-center mt-4">
+        <select
+          id="interval"
+          name="interval"
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[600px] p-2.5"
+          onChange={handleInputChange}
+        >
+          <option defaultValue={context.personName}>
+            {context.personName}
+          </option>
+          {context.userDetails
+            .filter((e) => {
+              return e !== context.personName;
+            })
+            .map((user) => (
+              <option key={user} value={user}>
+                {user}
+              </option>
+            ))}
+        </select>
+      </div>
+
+      <div className="pt-2 flex justify-center items-center">
         <div className="w-[600px] bg-white shadow-sm border-none">
           <div
             key="uhhh"

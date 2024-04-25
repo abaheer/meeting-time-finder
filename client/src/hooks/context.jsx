@@ -14,6 +14,7 @@ const getFreshContext = () => {
     interval: localStorage.getItem("interval"),
     // the following are subject to change based on the actions of other users
     // so should not be stored in localStorage
+    userDetails: new Array(),
     numParticipants: -1, // number of participants in a room.
     selectedDates: new Map(), // current user selected dates.
     userDates: new Map(), // loaded dates from all users so we can display counts (date => count).
@@ -56,11 +57,18 @@ export const ContextProvider = ({ children }) => {
       .get(`https://localhost:7118/api/Rooms/${context.roomId}/Participants`)
       .then((res) => {
         console.log("getNumParticipants: ", res.data);
+        const temp = new Array();
+        res.data.map((user) => {
+          console.log("K", user.personName);
+          temp.push(user.personName);
+        });
         setContext((prev) => ({
           ...prev,
           numParticipants: res.data.length,
+          userDetails: temp,
         }));
       });
+    console.log("KAKA", context.userDates);
   };
 
   // set UserDates to store all times with at least one person available
