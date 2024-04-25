@@ -15,7 +15,8 @@ import {
   eachDayOfInterval,
   isSameWeek,
 } from "date-fns";
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import axios from "axios";
 
 const daysOfTheWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 export const Calendar = (props) => {
@@ -26,7 +27,12 @@ export const Calendar = (props) => {
     addTimes,
     context,
     formatTime,
+    setRoom,
   } = useContext(stateContext);
+
+  const [render, setRender] = useState(0);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     storeUserDates();
@@ -72,19 +78,63 @@ export const Calendar = (props) => {
     props.onChange((prev) => set(prev, { date: dayOfTheMonth }));
   };
 
+  const handleInputChange = (e) => {
+    console.log(context.userDetails);
+    console.log("AAAAAAAA", e.target.value);
+
+    axios
+      .post(
+        `https://localhost:7118/api/Rooms/Person/${context.roomId}/${e.target.value}`
+      ) //return person object
+      .then(function (response) {
+        console.log(response);
+        setRoom(
+          response.data.personId,
+          response.data.personName,
+          response.data.room.roomId,
+          response.data.room.roomName,
+          response.data.room.meetingStart,
+          response.data.room.meetingEnd,
+          response.data.room.timeInterval
+        );
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    // storeUserDates();
+    // getNumParticipants();
+    // loadDates();
+    location.reload();
+  };
+
   return (
-    <>
-      <nav className="flex justify-center bg-sky-900 text-white font-medium p-4 text-2xl">
-        <Link to="/join">
-          <h1 className="ml-2 text-right float-right">Join Room</h1>
-        </Link>
-        <h1 className="ml-2 mr-2"> | </h1>
+    <div className="h-screen flex flex-col items-center">
+      <nav className="text-white font-medium p-2 text-2xl w-[600px]">
         <Link to="/">
-          <h1 className="text-right float-right">Create Room</h1>
+          <h1 className="text-right float-left">whenwefree</h1>
+        </Link>
+        <Link to="/">
+          <h1 className="text-right float-right">{`<`}</h1>
         </Link>
       </nav>
 
-      <div className="mt-5 flex justify-center items-center">
+      <div className="flex items-center justify-center mt-4">
+        <select
+          value={context.personName}
+          id="interval"
+          name="interval"
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[600px] p-2.5"
+          onChange={handleInputChange}
+        >
+          {context.userDetails.map((user) => (
+            <option key={user} value={user}>
+              {user}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <div className="pt-2 flex justify-center items-center">
         <div className="w-[600px] bg-white shadow-sm border-none">
           <div
             key="uhhh"
@@ -163,7 +213,7 @@ export const Calendar = (props) => {
             <div className="col-span-8 flex justify-center">
               <button
                 type="submit"
-                className="transition duration-200 mt-2 mb-5 border-white border-2 rounded py-1 px-3 text-white font-bold bg-blue-500 hover:bg-blue-800"
+                className="transition duration-200 mt-2 mb-5 border-white border-2 rounded py-1 px-3 text-white font-bold bg-blue-600 hover:bg-blue-800"
                 onClick={addTimes}
               >
                 Save
@@ -174,10 +224,9 @@ export const Calendar = (props) => {
       </div>
       <div className="flex-col text-center justify-center mt-5">
         {" "}
-        <h1>person name = {context.personName}</h1>
         <h1>room name = {context.roomName}</h1>
         <h1>room id = {context.roomId}</h1>
       </div>
-    </>
+    </div>
   );
 };
