@@ -219,7 +219,7 @@ namespace server.Controllers
                 return NotFound(); // Return 404 if room not found
             }
 
-            var participantIds = room.Participants?.Select(p => new { p.PersonId, p.Person_AvailableTimes });
+            var participantIds = room.Participants?.Select(p => new { p.PersonName, p.PersonId, p.Person_AvailableTimes });
 
             if (participantIds == null || !participantIds.Any())
             {
