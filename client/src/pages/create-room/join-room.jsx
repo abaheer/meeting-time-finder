@@ -44,47 +44,56 @@ export const JoinRoom = () => {
   };
 
   return (
-    <div className="w-screen h-screen flex items-center justify-center">
-      <div className="w-full max-w-xs justify-center">
-        <form
-          noValidate
-          autoComplete="off"
-          onSubmit={NewRoom}
-          className="bg-white rounded-xl px-8 pt-6 pb-8 mb-4 0 shadow-xl"
-        >
-          <div className="mb-4">
-            <label
-              className="block text-gray-700 text-sm font-bold mb-2"
-              htmlFor="username"
-            >
-              Username
-            </label>
-            <input
-              className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              name="username"
-              type="text"
-              placeholder="Username"
-              value={values.username}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className="mb-4">
-            <label
-              className="block text-gray-700 text-sm font-bold mb-2"
-              htmlFor="roomid"
-            >
-              Room Code
-            </label>
-            <input
-              className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              name="roomid"
-              type="number"
-              placeholder="12345"
-              value={values.roomid}
-              onChange={handleInputChange}
-            />
-          </div>
-          {/* <div className="mb-6">
+    <div className="h-screen flex flex-col items-center">
+      <nav className="text-white font-medium p-2 text-2xl w-[600px]">
+        <Link to="/">
+          <h1 className="ml-10 text-right float-left">whenwefree</h1>
+        </Link>
+        <Link to="/">
+          <h1 className="mr-10 text-right float-right">{`<`}</h1>
+        </Link>
+      </nav>
+      <div className="w-screen h-screen flex items-center justify-center">
+        <div className="w-full max-w-xs justify-center">
+          <form
+            noValidate
+            autoComplete="off"
+            onSubmit={NewRoom}
+            className="bg-white rounded-xl px-8 pt-6 pb-8 mb-4 0 shadow-xl"
+          >
+            <div className="mb-4">
+              <label
+                className="block text-gray-700 text-sm font-bold mb-2"
+                htmlFor="username"
+              >
+                Username
+              </label>
+              <input
+                className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                name="username"
+                type="text"
+                placeholder="Username"
+                value={values.username}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="mb-4">
+              <label
+                className="block text-gray-700 text-sm font-bold mb-2"
+                htmlFor="roomid"
+              >
+                Room Code
+              </label>
+              <input
+                className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                name="roomid"
+                type="number"
+                placeholder="12345"
+                value={values.roomid}
+                onChange={handleInputChange}
+              />
+            </div>
+            {/* <div className="mb-6">
             <label
               className="block text-gray-700 text-sm font-bold mb-2"
               htmlFor="password"
@@ -100,21 +109,22 @@ export const JoinRoom = () => {
               onChange={handleInputChange}
             />
           </div> */}
-          <div className="flex items-center justify-center">
-            <button
-              className="mt-2 transition duration-300 bg-sky-600 hover:bg-sky-950 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-              type="submit"
+            <div className="flex items-center justify-center">
+              <button
+                className="mt-2 transition duration-300 bg-sky-600 hover:bg-sky-950 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                type="submit"
+              >
+                Join Room
+              </button>
+            </div>
+            <Link
+              to="/create"
+              className="mt-2 hover:underline flex justify-center text-blue-600 font-semibold"
             >
-              Join Room
-            </button>
-          </div>
-          <Link
-            to="/create"
-            className="mt-2 hover:underline flex justify-center text-blue-600 font-semibold"
-          >
-            Or Create a room
-          </Link>
-        </form>
+              Or Create a room
+            </Link>
+          </form>
+        </div>
       </div>
     </div>
   );

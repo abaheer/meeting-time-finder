@@ -108,13 +108,13 @@ export const Calendar = (props) => {
   };
 
   return (
-    <div className="h-screen flex flex-col">
-      <nav className="text-white font-medium p-2 text-2xl w-screen">
+    <div className="h-screen flex flex-col items-center">
+      <nav className="text-white font-medium p-2 text-2xl w-[600px]">
         <Link to="/">
-          <h1 className="ml-10 text-right float-left">whenwefree</h1>
+          <h1 className="text-right float-left">whenwefree</h1>
         </Link>
         <Link to="/">
-          <h1 className="mr-10 text-right float-right">{`<`}</h1>
+          <h1 className="text-right float-right">{`<`}</h1>
         </Link>
       </nav>
 

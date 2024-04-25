@@ -68,106 +68,115 @@ export const CreateRoom = () => {
   };
 
   return (
-    <div className="w-screen h-screen flex items-center justify-center">
-      <div className="w-full max-w-xs justify-center">
-        <form
-          noValidate
-          autoComplete="off"
-          onSubmit={NewRoom}
-          className="bg-white rounded-xl px-8 pt-6 pb-8 mb-4 0 shadow-xl"
-        >
-          <div className="mb-4">
-            <label
-              className="block text-gray-700 text-sm font-bold mb-2"
-              htmlFor="username"
-            >
-              Username
-            </label>
-            <input
-              className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              name="username"
-              type="text"
-              placeholder="Username"
-              value={values.username}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className="mb-4">
-            <label
-              className="block text-gray-700 text-sm font-bold mb-2"
-              htmlFor="username"
-            >
-              Room Name
-            </label>
-            <input
-              className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              name="roomname"
-              type="text"
-              placeholder="Project Meeting Schedule"
-              value={values.roomname}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className="mb-4">
-            <label
-              className="block text-gray-700 text-sm font-bold mb-2"
-              htmlFor="interval"
-            >
-              Time Interval
-            </label>
-            <select
-              id="interval"
-              name="interval"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-              onChange={handleInputChange}
-            >
-              {/* <option defaultValue={60}>Select an Interval</option> */}
-              <option value={60}>60 Minutes</option>
-              <option value={30}>30 Minutes</option>
-              <option value={15}>15 Minutes</option>
-              <option value={10}>10 Minutes</option>
-            </select>
-          </div>
-          <div className="mb-4">
-            <label
-              className="block text-gray-700 text-sm font-bold mb-2"
-              htmlFor="times"
-            >
-              Meeting Times
-            </label>
-            <Slider
-              range
-              allowCross={false}
-              step={1} // lets do hour steps but allow the user to change the interval as desired
-              // step={values.interval / 60}
-              name="times"
-              min={0}
-              max={24}
-              defaultValue={[9, 17]}
-              handle={handleRender}
-              onChange={(newValue) => handleSliderChange("times", newValue)}
-            />
-            <p>
-              {formatTime(values.times[0])} to {formatTime(values.times[1])}
-            </p>
-            <input
-              className="appearance-none border rounded w-1/2 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              name="start"
-              type="text"
-              placeholder="9"
-              value={values.times[0]}
-              onChange={handleInputChange}
-            />
-            <input
-              className="appearance-none border rounded w-1/2 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              name="start"
-              type="text"
-              placeholder="17"
-              value={values.times[1]}
-              onChange={handleInputChange}
-            />
-          </div>
-          {/* <div className="mb-6">
+    <div className="h-screen flex flex-col items-center">
+      <nav className="text-white font-medium p-2 text-2xl w-[600px]">
+        <Link to="/">
+          <h1 className="ml-10 text-right float-left">whenwefree</h1>
+        </Link>
+        <Link to="/">
+          <h1 className="mr-10 text-right float-right">{`<`}</h1>
+        </Link>
+      </nav>
+      <div className="w-screen h-screen flex items-center justify-center">
+        <div className="w-full max-w-xs justify-center">
+          <form
+            noValidate
+            autoComplete="off"
+            onSubmit={NewRoom}
+            className="bg-white rounded-xl px-8 pt-6 pb-8 mb-4 0 shadow-xl"
+          >
+            <div className="mb-4">
+              <label
+                className="block text-gray-700 text-sm font-bold mb-2"
+                htmlFor="username"
+              >
+                Username
+              </label>
+              <input
+                className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                name="username"
+                type="text"
+                placeholder="Username"
+                value={values.username}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="mb-4">
+              <label
+                className="block text-gray-700 text-sm font-bold mb-2"
+                htmlFor="username"
+              >
+                Room Name
+              </label>
+              <input
+                className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                name="roomname"
+                type="text"
+                placeholder="Project Meeting Schedule"
+                value={values.roomname}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="mb-4">
+              <label
+                className="block text-gray-700 text-sm font-bold mb-2"
+                htmlFor="interval"
+              >
+                Time Interval
+              </label>
+              <select
+                id="interval"
+                name="interval"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                onChange={handleInputChange}
+              >
+                {/* <option defaultValue={60}>Select an Interval</option> */}
+                <option value={60}>60 Minutes</option>
+                <option value={30}>30 Minutes</option>
+                <option value={15}>15 Minutes</option>
+                <option value={10}>10 Minutes</option>
+              </select>
+            </div>
+            <div className="mb-4">
+              <label
+                className="block text-gray-700 text-sm font-bold mb-2"
+                htmlFor="times"
+              >
+                Meeting Times
+              </label>
+              <Slider
+                range
+                allowCross={false}
+                step={1} // lets do hour steps but allow the user to change the interval as desired
+                // step={values.interval / 60}
+                name="times"
+                min={0}
+                max={24}
+                defaultValue={[9, 17]}
+                handle={handleRender}
+                onChange={(newValue) => handleSliderChange("times", newValue)}
+              />
+              <p>
+                {formatTime(values.times[0])} to {formatTime(values.times[1])}
+              </p>
+              <input
+                className="appearance-none border rounded w-1/2 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                name="start"
+                type="text"
+                placeholder="9"
+                value={values.times[0]}
+                onChange={handleInputChange}
+              />
+              <input
+                className="appearance-none border rounded w-1/2 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                name="start"
+                type="text"
+                placeholder="17"
+                value={values.times[1]}
+                onChange={handleInputChange}
+              />
+            </div>
+            {/* <div className="mb-6">
             <label
               className="block text-gray-700 text-sm font-bold mb-2"
               htmlFor="password"
@@ -183,21 +192,22 @@ export const CreateRoom = () => {
               onChange={handleInputChange}
             />
           </div> */}
-          <div className="flex items-center justify-center">
-            <button
-              className="transition duration-300 bg-sky-600 hover:bg-sky-950 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-2"
-              type="submit"
+            <div className="flex items-center justify-center">
+              <button
+                className="transition duration-300 bg-sky-600 hover:bg-sky-950 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-2"
+                type="submit"
+              >
+                Create Room
+              </button>
+            </div>
+            <Link
+              to="/join"
+              className="flex justify-center mt-2 hover:underline text-blue-600 font-semibold"
             >
-              Create Room
-            </button>
-          </div>
-          <Link
-            to="/join"
-            className="flex justify-center mt-2 hover:underline text-blue-600 font-semibold"
-          >
-            Or Join an existing room
-          </Link>
-        </form>
+              Or Join an existing room
+            </Link>
+          </form>
+        </div>
       </div>
     </div>
   );
