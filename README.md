@@ -1,7 +1,7 @@
 # Meeting Time Finder
 - A web application designed to simplify the process of scheduling meetings and managing available time slots. It allows users to create rooms, invite participants, and select available time slots for meetings.
 
-Click [HERE](https://youtu.be/dRujo64JqzI) for a demo of the app in action.
+Click [HERE](https://youtu.be/dRujo64JqzI) for a video demo of the webapp in action.
 
 ![](preview.jpg)
 # Features
